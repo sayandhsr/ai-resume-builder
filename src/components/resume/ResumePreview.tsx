@@ -1,6 +1,7 @@
 "use client";
 
 import { useResumeStore } from "@/store/useResumeStore";
+import { motion } from "framer-motion";
 
 const getTemplateStyles = (id: string) => {
     // strict ATS compliance defaults
@@ -53,7 +54,11 @@ export function ResumePreview() {
 
     return (
         <div id="resume-preview" className="w-full aspect-[1/1.414] bg-white text-black overflow-hidden shadow-xl print:shadow-none print:border-none relative">
-            <div 
+            <motion.div 
+              key={settings.templateId + JSON.stringify(data.personalInfo)}
+              initial={{ opacity: 0.9, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
               className="p-8 h-full flex flex-col" 
               style={{ fontFamily: styles.fontFamily, color: "#000000" }}
             >
@@ -177,7 +182,7 @@ export function ResumePreview() {
                     </div>
                 )}
 
-            </div>
+            </motion.div>
         </div>
     );
 }
