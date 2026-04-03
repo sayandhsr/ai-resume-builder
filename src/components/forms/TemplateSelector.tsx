@@ -166,12 +166,12 @@ export function TemplateSelector() {
               whileTap={{ scale: 0.98 }}
               onClick={() => updateSettings({ templateId: template.id })}
               className={`
-                group flex flex-col rounded-xl bg-white/60 dark:bg-[#111827]/60 backdrop-blur-[12px] text-card-foreground shadow-[0_8px_24px_rgba(0,0,0,0.08)] dark:shadow-[0_10px_30px_rgba(0,0,0,0.4)] 
-                transition-all duration-300 ease-out cursor-pointer 
-                hover:-translate-y-[2px]
+                group flex flex-col rounded-xl bg-card text-card-foreground shadow-sm 
+                transition-all duration-300 ease-out cursor-pointer overflow-hidden
+                hover:-translate-y-[2px] hover:shadow-md
                 ${isSelected 
-                  ? "border-2 border-indigo-500 ring-4 ring-indigo-500/30" 
-                  : "border border-border/50 dark:border-white/10 hover:shadow-xl"}
+                  ? "border-2 border-indigo-500 ring-2 ring-indigo-500/20" 
+                  : "border border-border"}
               `}
             >
               

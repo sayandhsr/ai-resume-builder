@@ -37,20 +37,20 @@
   }
 
   .dark {
-    --foreground: 19 74% 91%; /* #FBE4D8 */
+    --foreground: 0 0% 100%; /* #FFFFFF */
     
-    --card: 222 84% 11%;
-    --card-foreground: 19 74% 91%;
+    --card: 222 84% 11%; /* #111827 */
+    --card-foreground: 0 0% 100%;
     
     --popover: 222 84% 11%;
-    --popover-foreground: 19 74% 91%;
+    --popover-foreground: 0 0% 100%;
     
-    --muted: 217 33% 17%;
-    --muted-foreground: 6 39% 79%; /* #DFB6B2 */
+    --muted: 222 47% 11%; /* #0F172A */
+    --muted-foreground: 215 14% 65%; /* #9CA3AF */
     
-    --border: 217 19% 27%;
-    --input: 217 19% 27%;
-    --primary: 238 82% 65%; 
+    --border: 217 33% 17%; /* #1F2937 */
+    --input: 215 19% 27%; /* #374151 */
+    --primary: 243 75% 59%; /* #4F46E5 */
     --primary-foreground: 0 0% 100%;
   }
 }
@@ -63,7 +63,7 @@
     transition: all 0.25s ease;
   }
   .dark body {
-    background: linear-gradient(180deg, #190019 0%, #2B124C 100%);
+    background: linear-gradient(180deg, #0B0F14 0%, #111827 100%);
   }
   
   * {
