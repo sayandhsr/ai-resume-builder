@@ -21,7 +21,7 @@ export function FixedSelect({
 }: FixedSelectProps) {
   return (
     <Select {...props}>
-      <SelectTrigger className={cn("w-full bg-background", triggerClassName)}>
+      <SelectTrigger className={cn("w-full bg-transparent dark:bg-[#0F172A]", triggerClassName)}>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       
