@@ -10,7 +10,7 @@ export function ResumePreview() {
     const softSkills = skills.filter((s) => s.category === "soft").map(s => s.name);
 
     return (
-        <div className="w-full aspect-[1/1.414] bg-white border border-border/50 shadow-xl overflow-hidden text-sm text-foreground print:shadow-none print:border-none">
+        <div id="resume-preview" className="w-full aspect-[1/1.414] bg-white border border-border/50 shadow-xl overflow-hidden text-sm text-foreground print:shadow-none print:border-none">
             <div className="p-8 h-full flex flex-col">
 
                 {/* Header Section */}

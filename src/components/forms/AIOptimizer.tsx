@@ -7,7 +7,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { Wand2, Save, CheckCircle2, Sparkles } from "lucide-react";
+import { Wand2, Save, CheckCircle2, Sparkles, Download } from "lucide-react";
+import html2canvas from "html2canvas";
+import { jsPDF } from "jspdf";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
 
@@ -18,7 +20,52 @@ export function AIOptimizer() {
     const [isOptimizing, setIsOptimizing] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
     const [saveSuccess, setSaveSuccess] = useState(false);
+    const [isDownloading, setIsDownloading] = useState(false);
     const supabase = createClient();
+
+    const handleDownloadPDF = async () => {
+        const element = document.getElementById("resume-preview");
+        if (!element) {
+            toast.error("Resume preview not found.");
+            return;
+        }
+
+        setIsDownloading(true);
+        const loadingToast = toast.loading("Generating PDF...");
+        try {
+            const canvas = await html2canvas(element, {
+                scale: 2,
+                useCORS: true,
+                backgroundColor: "#ffffff",
+            });
+
+            const imgData = canvas.toDataURL("image/png");
+            const pdf = new jsPDF("p", "mm", "a4");
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = pdf.internal.pageSize.getHeight();
+
+            const imgWidth = pdfWidth;
+            const imgHeight = (canvas.height * pdfWidth) / canvas.width;
+
+            // If the image is taller than one page, scale it down to fit
+            const finalHeight = imgHeight > pdfHeight ? pdfHeight : imgHeight;
+            const finalWidth = imgHeight > pdfHeight ? (canvas.width * pdfHeight) / canvas.height : imgWidth;
+
+            pdf.addImage(imgData, "PNG", (pdfWidth - finalWidth) / 2, 0, finalWidth, finalHeight);
+
+            const fileName = settings.jobRole
+                ? `${data.personalInfo.fullName || "Resume"}_${settings.jobRole}.pdf`
+                : `${data.personalInfo.fullName || "Resume"}.pdf`;
+
+            pdf.save(fileName);
+            toast.success("PDF downloaded!", { id: loadingToast });
+        } catch (error) {
+            console.error(error);
+            toast.error("Failed to generate PDF.", { id: loadingToast });
+        } finally {
+            setIsDownloading(false);
+        }
+    };
 
     const handleTailorResume = async () => {
         const loadingToast = toast.loading("AI is tailoring your resume...");
@@ -167,7 +214,7 @@ export function AIOptimizer() {
                     </Button>
                 </div>
                 
-                <div className="pt-2 border-t">
+                <div className="pt-2 border-t space-y-2">
                     <Button 
                         variant="outline" 
                         onClick={handleSaveToHistory} 
@@ -185,6 +232,15 @@ export function AIOptimizer() {
                                 {isSaving ? "Saving..." : "Save to History"}
                             </>
                         )}
+                    </Button>
+                    <Button 
+                        variant="outline" 
+                        onClick={handleDownloadPDF} 
+                        className="w-full gap-2"
+                        disabled={isDownloading}
+                    >
+                        <Download className={`h-4 w-4 ${isDownloading ? 'animate-bounce' : ''}`} />
+                        {isDownloading ? "Generating PDF..." : "Download as PDF"}
                     </Button>
                 </div>
             </CardContent>
