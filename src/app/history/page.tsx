@@ -5,16 +5,17 @@ import { createClient } from "@/lib/supabase/client";
 import { useResumeStore } from "@/store/useResumeStore";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { History, Trash2, FileEdit, Plus } from "lucide-react";
+import { History, Trash2, FileEdit, Plus, Copy } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function HistoryPage() {
     const [resumes, setResumes] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState<any>(null);
     const supabase = createClient();
-    const { setResumeData } = useResumeStore();
+    const { setResumeData, resetResumeData } = useResumeStore();
     const router = useRouter();
 
     useEffect(() => {
@@ -46,7 +47,19 @@ export default function HistoryPage() {
     };
 
     const handleEdit = (resume: any) => {
-        setResumeData(resume.data);
+        setResumeData(resume.data, resume.id);
+        router.push("/builder");
+    };
+
+    const handleDuplicate = (resume: any) => {
+        // Load data but don't pass the ID, effectively making it a new resume
+        setResumeData(resume.data, null);
+        router.push("/builder");
+        toast.success("Resume duplicated! You are now editing a new copy.");
+    };
+
+    const handleCreateNew = () => {
+        resetResumeData();
         router.push("/builder");
     };
 
@@ -85,10 +98,8 @@ export default function HistoryPage() {
                     <h1 className="text-3xl font-bold tracking-tight">Your Resumes</h1>
                     <p className="text-muted-foreground">Manage and edit your previous resumes.</p>
                 </div>
-                <Button asChild className="gap-2">
-                    <Link href="/builder">
-                        <Plus className="h-4 w-4" /> Create New
-                    </Link>
+                <Button onClick={handleCreateNew} className="gap-2">
+                    <Plus className="h-4 w-4" /> Create New
                 </Button>
             </div>
 
@@ -102,9 +113,7 @@ export default function HistoryPage() {
                             <p className="font-semibold">No resumes found</p>
                             <p className="text-sm text-muted-foreground">You haven't saved any resumes yet.</p>
                         </div>
-                        <Button asChild variant="outline">
-                            <Link href="/builder">Start Building</Link>
-                        </Button>
+                        <Button onClick={handleCreateNew} variant="outline">Start Building</Button>
                     </CardContent>
                 </Card>
             ) : (
@@ -118,12 +127,17 @@ export default function HistoryPage() {
                                 </CardDescription>
                             </CardHeader>
                             <CardContent>
-                                <div className="flex gap-2">
-                                    <Button variant="outline" size="sm" className="w-full gap-2" onClick={() => handleEdit(resume)}>
-                                        <FileEdit className="h-4 w-4" /> Edit
-                                    </Button>
-                                    <Button variant="ghost" size="icon" className="text-destructive hover:bg-destructive/10" onClick={() => handleDelete(resume.id)}>
-                                        <Trash2 className="h-4 w-4" />
+                                <div className="flex flex-col gap-2">
+                                    <div className="flex gap-2">
+                                        <Button variant="outline" size="sm" className="flex-1 gap-2 border-primary/20 hover:border-primary/50" onClick={() => handleEdit(resume)}>
+                                            <FileEdit className="h-4 w-4" /> Edit
+                                        </Button>
+                                        <Button variant="ghost" size="icon" className="text-destructive hover:bg-destructive/10" onClick={() => handleDelete(resume.id)}>
+                                            <Trash2 className="h-4 w-4" />
+                                        </Button>
+                                    </div>
+                                    <Button variant="ghost" size="sm" className="w-full gap-2 text-muted-foreground hover:text-foreground" onClick={() => handleDuplicate(resume)}>
+                                        <Copy className="h-4 w-4" /> Duplicate
                                     </Button>
                                 </div>
                             </CardContent>

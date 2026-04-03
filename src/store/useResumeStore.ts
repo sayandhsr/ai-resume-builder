@@ -95,8 +95,9 @@ interface ResumeStore {
     removeCertification: (id: string) => void;
 
     updateSettings: (settings: Partial<ResumeSettings>) => void;
-    setResumeData: (data: ResumeData) => void;
+    setResumeData: (data: ResumeData, id?: string | null) => void;
     resetResumeData: () => void;
+    currentResumeId: string | null;
 }
 
 const initialData: ResumeData = {
@@ -141,6 +142,7 @@ export const useResumeStore = create<ResumeStore>((set) => ({
 
     updateSettings: (settings) => set((state) => ({ data: { ...state.data, settings: { ...state.data.settings, ...settings } } })),
     
-    setResumeData: (data: ResumeData) => set({ data }),
-    resetResumeData: () => set({ data: initialData }),
+    setResumeData: (data, id = null) => set({ data, currentResumeId: id }),
+    resetResumeData: () => set({ data: initialData, currentResumeId: null }),
+    currentResumeId: null,
 }));

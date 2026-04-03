@@ -35,9 +35,14 @@ export function Navbar() {
                 </Link>
                 <nav className="flex items-center space-x-6">
                     {user && (
-                        <Link href="/builder" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-                            Create Resume
-                        </Link>
+                        <>
+                            <Link href="/builder" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+                                Create Resume
+                            </Link>
+                            <Link href="/history" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+                                History
+                            </Link>
+                        </>
                     )}
                     <UserNav />
                 </nav>

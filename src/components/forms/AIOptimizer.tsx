@@ -12,7 +12,7 @@ import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
 
 export function AIOptimizer() {
-    const { data, setResumeData, updateSettings } = useResumeStore();
+    const { data, setResumeData, updateSettings, currentResumeId } = useResumeStore();
     const { settings } = data;
     const [jobDescription, setJobDescription] = useState("");
     const [isOptimizing, setIsOptimizing] = useState(false);
@@ -50,7 +50,7 @@ export function AIOptimizer() {
                    const optimizedData = typeof result.optimizedContent === 'string' 
                         ? JSON.parse(result.optimizedContent) 
                         : result.optimizedContent;
-                   setResumeData(optimizedData);
+                   setResumeData(optimizedData, currentResumeId);
                    toast.success("Resume tailored successfully!", { id: loadingToast });
                 } catch (e) {
                     console.error("Failed to parse optimized content", e);
@@ -77,12 +77,18 @@ export function AIOptimizer() {
                 return;
             }
 
-            const { error } = await supabase.from("resumes").upsert({
+            const saveData: any = {
                 user_id: user.id,
                 data: data,
                 title: settings.jobRole || "My Resume",
                 updated_at: new Date().toISOString(),
-            });
+            };
+
+            if (currentResumeId) {
+                saveData.id = currentResumeId;
+            }
+
+            const { error } = await supabase.from("resumes").upsert(saveData);
 
             if (error) throw error;
             setSaveSuccess(true);
