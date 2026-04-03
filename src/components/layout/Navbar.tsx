@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Copyleft } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { UserNav } from "./UserNav";
 
 export function Navbar() {
     return (
@@ -16,7 +16,7 @@ export function Navbar() {
                     <Link href="/builder" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
                         Create Resume
                     </Link>
-                    <Button>Get Started</Button>
+                    <UserNav />
                 </nav>
             </div>
         </header>

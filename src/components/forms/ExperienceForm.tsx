@@ -38,6 +38,8 @@ export function ExperienceForm() {
                     rawText: description,
                     role: settings.jobRole,
                     tone: settings.tone,
+                    model: settings.aiModel,
+                    optimizationType: settings.optimizationType
                 }),
             });
 

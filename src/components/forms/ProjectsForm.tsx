@@ -1,17 +1,51 @@
 "use client";
 
+import { useState } from "react";
 import { useResumeStore } from "@/store/useResumeStore";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Plus, Trash2 } from "lucide-react";
+import { Plus, Trash2, Wand2 } from "lucide-react";
 import { v4 as uuidv4 } from "uuid";
 
 export function ProjectsForm() {
     const { data, addProject, updateProject, removeProject } = useResumeStore();
-    const { projects } = data;
+    const { projects, settings } = data;
+    const [isOptimizing, setIsOptimizing] = useState<string | null>(null);
+
+    const handleOptimizeDescription = async (id: string, description: string) => {
+        if (!description.trim()) return;
+
+        setIsOptimizing(id);
+        try {
+            const res = await fetch('/api/generate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    section: 'projects',
+                    rawText: description,
+                    role: settings.jobRole,
+                    tone: settings.tone,
+                    model: settings.aiModel,
+                    optimizationType: settings.optimizationType
+                }),
+            });
+
+            if (!res.ok) throw new Error('Optimization failed');
+            const dataResult = await res.json();
+
+            if (dataResult.optimizedContent) {
+                updateProject(id, { description: dataResult.optimizedContent });
+            }
+        } catch (error) {
+            console.error(error);
+            alert('Failed to optimize with AI.');
+        } finally {
+            setIsOptimizing(null);
+        }
+    };
 
     const handleAdd = () => {
         addProject({
@@ -69,7 +103,19 @@ export function ProjectsForm() {
                                     />
                                 </div>
                                 <div className="space-y-2 md:col-span-2">
-                                    <Label>Description</Label>
+                                    <div className="flex justify-between items-center">
+                                        <Label>Description</Label>
+                                        <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            className="text-primary h-8 px-2 text-xs gap-1"
+                                            onClick={() => handleOptimizeDescription(proj.id, proj.description)}
+                                            disabled={isOptimizing === proj.id || !proj.description.trim()}
+                                        >
+                                            <Wand2 className={`h-3 w-3 ${isOptimizing === proj.id ? 'animate-spin' : ''}`} />
+                                            {isOptimizing === proj.id ? 'Optimizing...' : 'Optimize with AI'}
+                                        </Button>
+                                    </div>
                                     <Textarea
                                         placeholder="What did this project achieve?"
                                         className="min-h-[80px]"

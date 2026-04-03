@@ -49,11 +49,16 @@ export interface Certification {
     year: string;
 }
 
+export type AIModel = 'google/gemini-pro' | 'x-ai/grok-2-1212' | 'anthropic/claude-3-haiku';
+export type OptimizationType = 'ATS Rewrite' | 'Grammar & spelling' | 'Keyword optimization';
+
 export interface ResumeSettings {
     jobRole: string;
     jobType: JobType | '';
     tone: ResumeTone;
     pageCount: '1' | '2';
+    aiModel: AIModel;
+    optimizationType: OptimizationType;
 }
 
 export interface ResumeData {
@@ -90,6 +95,8 @@ interface ResumeStore {
     removeCertification: (id: string) => void;
 
     updateSettings: (settings: Partial<ResumeSettings>) => void;
+    setResumeData: (data: ResumeData) => void;
+    resetResumeData: () => void;
 }
 
 const initialData: ResumeData = {
@@ -99,7 +106,14 @@ const initialData: ResumeData = {
     projects: [],
     skills: [],
     certifications: [],
-    settings: { jobRole: '', jobType: '', tone: 'ATS-optimized', pageCount: '1' },
+    settings: { 
+        jobRole: '', 
+        jobType: '', 
+        tone: 'ATS-optimized', 
+        pageCount: '1',
+        aiModel: 'google/gemini-pro',
+        optimizationType: 'ATS Rewrite'
+    },
 };
 
 export const useResumeStore = create<ResumeStore>((set) => ({
@@ -126,4 +140,7 @@ export const useResumeStore = create<ResumeStore>((set) => ({
     removeCertification: (id) => set((state) => ({ data: { ...state.data, certifications: state.data.certifications.filter(c => c.id !== id) } })),
 
     updateSettings: (settings) => set((state) => ({ data: { ...state.data, settings: { ...state.data.settings, ...settings } } })),
+    
+    setResumeData: (data: ResumeData) => set({ data }),
+    resetResumeData: () => set({ data: initialData }),
 }));

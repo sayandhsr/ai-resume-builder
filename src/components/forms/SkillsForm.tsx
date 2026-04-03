@@ -6,12 +6,52 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Plus, X } from "lucide-react";
+import { Plus, X, Wand2 } from "lucide-react";
 import { v4 as uuidv4 } from "uuid";
 
 export function SkillsForm() {
-    const { data, addSkill, removeSkill } = useResumeStore();
-    const { skills } = data;
+    const { data, addSkill, removeSkill, setResumeData } = useResumeStore();
+    const { skills, settings } = data;
+    const [isOptimizing, setIsOptimizing] = useState(false);
+
+    const handleOptimizeSkills = async () => {
+        const skillsText = skills.map(s => s.name).join(", ");
+        setIsOptimizing(true);
+        try {
+            const res = await fetch('/api/generate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    section: 'skills',
+                    rawText: skillsText,
+                    role: settings.jobRole,
+                    tone: settings.tone,
+                    model: settings.aiModel,
+                    optimizationType: settings.optimizationType
+                }),
+            });
+
+            if (!res.ok) throw new Error('Optimization failed');
+            const dataResult = await res.json();
+
+            if (dataResult.optimizedContent) {
+                const optimizedSkills = dataResult.optimizedContent.split(',').map((s: string) => s.trim()).filter(Boolean);
+                // Clear and repopulate skills (simple version: overwrite data with new skills)
+                // For a more robust version, we'd need a clearSkills action, but we'll use setResumeData for now
+                const newSkills = optimizedSkills.map((name: string) => ({
+                    id: uuidv4(),
+                    name,
+                    category: 'technical' as const
+                }));
+                setResumeData({ ...data, skills: newSkills });
+            }
+        } catch (error) {
+            console.error(error);
+            alert('Failed to optimize skills with AI.');
+        } finally {
+            setIsOptimizing(false);
+        }
+    };
 
     const [techInput, setTechInput] = useState("");
     const [softInput, setSoftInput] = useState("");
@@ -47,9 +87,21 @@ export function SkillsForm() {
 
     return (
         <Card className="border-none shadow-sm bg-card text-card-foreground">
-            <CardHeader>
-                <CardTitle>Skills</CardTitle>
-                <CardDescription>Add relevant technical and soft skills for the role.</CardDescription>
+            <CardHeader className="flex flex-row items-center justify-between">
+                <div>
+                    <CardTitle>Skills</CardTitle>
+                    <CardDescription>Add relevant technical and soft skills for the role.</CardDescription>
+                </div>
+                <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="gap-2 text-primary" 
+                    onClick={handleOptimizeSkills}
+                    disabled={isOptimizing || skills.length === 0}
+                >
+                    <Wand2 className={`h-4 w-4 ${isOptimizing ? 'animate-spin' : ''}`} />
+                    {isOptimizing ? 'Optimizing...' : 'Optimize with AI'}
+                </Button>
             </CardHeader>
             <CardContent className="space-y-6">
 
