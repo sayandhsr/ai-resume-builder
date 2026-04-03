@@ -6,6 +6,7 @@ import { createClient } from "@/lib/supabase/client";
 import { ResumeBuilderStepper } from "@/components/forms/ResumeBuilderStepper";
 import { ResumePreview } from "@/components/resume/ResumePreview";
 import { AIOptimizer } from "@/components/forms/AIOptimizer";
+import { Reveal } from "@/components/ui/reveal";
 
 export default function BuilderPage() {
     const [user, setUser] = useState<any>(null);
@@ -39,21 +40,29 @@ export default function BuilderPage() {
 
     return (
         <div className="flex flex-col gap-6 pb-12">
-            <div className="space-y-1">
-                <h1 className="text-3xl font-bold tracking-tight text-foreground">Resume Builder</h1>
-                <p className="text-muted-foreground">Fill in your details below. You can preview changes instantly.</p>
-            </div>
+            <Reveal>
+                <div className="space-y-1">
+                    <h1 className="text-3xl font-bold tracking-tight text-foreground">Resume Builder</h1>
+                    <p className="text-muted-foreground">Fill in your details below. You can preview changes instantly.</p>
+                </div>
+            </Reveal>
 
             <div className="flex flex-col lg:flex-row gap-8 items-start w-full">
                 {/* Left Side: Input Form — scrollable */}
                 <div className="w-full lg:w-1/2 space-y-6 overflow-visible">
-                    <ResumeBuilderStepper />
-                    <AIOptimizer />
+                    <Reveal>
+                        <ResumeBuilderStepper />
+                    </Reveal>
+                    <Reveal>
+                        <AIOptimizer />
+                    </Reveal>
                 </div>
 
                 {/* Right Side: Live Preview — sticky */}
                 <div className="w-full lg:w-1/2 lg:sticky lg:top-20 h-fit">
-                    <ResumePreview />
+                    <Reveal>
+                        <ResumePreview />
+                    </Reveal>
                 </div>
             </div>
         </div>
