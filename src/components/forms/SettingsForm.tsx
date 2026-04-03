@@ -75,6 +75,9 @@ export function SettingsForm() {
                                 <SelectItem value="2">2 Pages (Detailed)</SelectItem>
                             </SelectContent>
                         </Select>
+                        <p className="text-[10px] text-muted-foreground mt-1 px-1">
+                          AI will prioritize content to fit the selected length.
+                        </p>
                     </div>
                 </div>
             </CardContent>

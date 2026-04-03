@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Copyleft } from "lucide-react";
 import { UserNav } from "./UserNav";
+import { ThemeSwitcher } from "../theme/ThemeSwitcher";
 import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 
@@ -45,6 +46,7 @@ export function Navbar() {
                         </>
                     )}
                     <UserNav />
+                    <ThemeSwitcher />
                 </nav>
             </div>
         </header>
