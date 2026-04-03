@@ -1,10 +1,44 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
 import { ResumeBuilderStepper } from "@/components/forms/ResumeBuilderStepper";
 import { ResumePreview } from "@/components/resume/ResumePreview";
 import { AIOptimizer } from "@/components/forms/AIOptimizer";
+import { Button } from "@/components/ui/button";
+import { LogIn } from "lucide-react";
 
 export default function BuilderPage() {
+    const [user, setUser] = useState<any>(null);
+    const [loading, setLoading] = useState(true);
+    const supabase = createClient();
+    const router = useRouter();
+
+    useEffect(() => {
+        const checkUser = async () => {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) {
+                router.push("/");
+            } else {
+                setUser(user);
+            }
+            setLoading(false);
+        };
+        checkUser();
+    }, [supabase, router]);
+
+    if (loading) {
+        return (
+            <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                <p className="text-muted-foreground">Checking authentication...</p>
+            </div>
+        );
+    }
+
+    if (!user) return null;
+
     return (
         <div className="flex flex-col gap-6">
             <div className="space-y-1">

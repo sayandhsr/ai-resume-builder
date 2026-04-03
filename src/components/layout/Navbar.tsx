@@ -1,8 +1,29 @@
+"use client";
+
 import Link from "next/link";
 import { Copyleft } from "lucide-react";
 import { UserNav } from "./UserNav";
+import { useState, useEffect } from "react";
+import { createClient } from "@/lib/supabase/client";
 
 export function Navbar() {
+    const [user, setUser] = useState<any>(null);
+    const supabase = createClient();
+
+    useEffect(() => {
+        const getUser = async () => {
+            const { data: { user } } = await supabase.auth.getUser();
+            setUser(user);
+        };
+        getUser();
+
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+            setUser(session?.user ?? null);
+        });
+
+        return () => subscription.unsubscribe();
+    }, [supabase.auth]);
+
     return (
         <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex h-16 items-center justify-between">
@@ -13,9 +34,11 @@ export function Navbar() {
                     <span className="font-bold text-xl tracking-tight">AI Resume Builder</span>
                 </Link>
                 <nav className="flex items-center space-x-6">
-                    <Link href="/builder" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-                        Create Resume
-                    </Link>
+                    {user && (
+                        <Link href="/builder" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+                            Create Resume
+                        </Link>
+                    )}
                     <UserNav />
                 </nav>
             </div>

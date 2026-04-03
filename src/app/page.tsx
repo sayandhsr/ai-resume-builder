@@ -1,36 +1,66 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Copyleft, Sparkles, FileText, CheckCircle } from "lucide-react";
+import { Copyleft, Sparkles, FileText, CheckCircle, ArrowRight } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
 
 export default function Home() {
-  return (
-    <div className="flex flex-col items-center justify-center min-h-[80vh] text-center max-w-4xl mx-auto space-y-12">
-      {/* Hero Section */}
-      <div className="space-y-6">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
-          <Sparkles className="h-4 w-4" /> AI Powered Resume Optimization
-        </div>
-        <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-foreground">
-          Land Your Dream Job with an <br className="hidden md:block" />
-          <span className="text-primary mt-2 inline-block">ATS-Optimized Resume</span>
-        </h1>
-        <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-          Create a clean, professional resume in minutes. Enter your details and let our AI optimize your experience to bypass Applicant Tracking Systems.
-        </p>
+    const [user, setUser] = useState<any>(null);
+    const supabase = createClient();
 
-        <div className="pt-6 flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Button size="lg" className="h-14 px-8 text-lg rounded-xl" asChild>
-            <Link href="/builder">
-              Create Resume Now
-            </Link>
-          </Button>
-          <Button size="lg" variant="outline" className="h-14 px-8 text-lg rounded-xl" asChild>
-            <Link href="#features">
-              Learn More
-            </Link>
-          </Button>
-        </div>
-      </div>
+    useEffect(() => {
+        const getUser = async () => {
+            const { data: { user } } = await supabase.auth.getUser();
+            setUser(user);
+        };
+        getUser();
+    }, [supabase]);
+
+    const handleLogin = async () => {
+        await supabase.auth.signInWithOAuth({
+            provider: "google",
+            options: {
+                redirectTo: `${window.location.origin}/auth/callback`,
+            },
+        });
+    };
+
+    return (
+        <div className="flex flex-col items-center justify-center min-h-[80vh] text-center max-w-4xl mx-auto space-y-12">
+            {/* Hero Section */}
+            <div className="space-y-6">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
+                    <Sparkles className="h-4 w-4" /> AI Powered Resume Optimization
+                </div>
+                <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-foreground">
+                    Land Your Dream Job with an <br className="hidden md:block" />
+                    <span className="text-primary mt-2 inline-block">ATS-Optimized Resume</span>
+                </h1>
+                <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+                    Create a clean, professional resume in minutes. Enter your details and let our AI optimize your experience to bypass Applicant Tracking Systems.
+                </p>
+
+                <div className="pt-6 flex flex-col sm:flex-row items-center justify-center gap-4">
+                    {user ? (
+                        <Button size="lg" className="h-14 px-8 text-lg rounded-xl gap-2 font-semibold" asChild>
+                            <Link href="/builder">
+                                Go to Builder <ArrowRight className="h-5 w-5" />
+                            </Link>
+                        </Button>
+                    ) : (
+                        <Button size="lg" className="h-14 px-8 text-lg rounded-xl gap-2 font-semibold" onClick={handleLogin}>
+                            Sign In with Google to Start <Sparkles className="h-5 w-5" />
+                        </Button>
+                    )}
+                    <Button size="lg" variant="outline" className="h-14 px-8 text-lg rounded-xl" asChild>
+                        <Link href="#features">
+                            Learn More
+                        </Link>
+                    </Button>
+                </div>
+            </div>
 
       {/* Features Section */}
       <div id="features" className="grid sm:grid-cols-3 gap-8 pt-16 w-full text-left">
