@@ -79,7 +79,7 @@ export function ResumeBuilderStepper() {
             </div>
 
             {/* Stepper Content */}
-            <div className="p-6 bg-background/50 relative overflow-hidden flex-1">
+            <div className="p-6 bg-background/50 relative min-h-[500px] flex-1">
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={currentStep}

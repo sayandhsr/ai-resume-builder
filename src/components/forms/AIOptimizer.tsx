@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Label } from "@/components/ui/label";
 import { Wand2, Save, CheckCircle2, Sparkles } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { toast } from "sonner";
 
 export function AIOptimizer() {
     const { data, setResumeData, updateSettings } = useResumeStore();
@@ -20,6 +21,7 @@ export function AIOptimizer() {
     const supabase = createClient();
 
     const handleTailorResume = async () => {
+        const loadingToast = toast.loading("AI is tailoring your resume...");
         setIsOptimizing(true);
         try {
             const res = await fetch('/api/generate', {
@@ -36,7 +38,11 @@ export function AIOptimizer() {
                 }),
             });
 
-            if (!res.ok) throw new Error('Tailoring failed');
+            if (!res.ok) {
+                const errData = await res.json();
+                throw new Error(errData.error || 'Tailoring failed');
+            }
+            
             const result = await res.json();
 
             if (result.optimizedContent) {
@@ -45,13 +51,17 @@ export function AIOptimizer() {
                         ? JSON.parse(result.optimizedContent) 
                         : result.optimizedContent;
                    setResumeData(optimizedData);
+                   toast.success("Resume tailored successfully!", { id: loadingToast });
                 } catch (e) {
                     console.error("Failed to parse optimized content", e);
+                    toast.error("AI returned invalid data format.", { id: loadingToast });
                 }
+            } else {
+                toast.error("No content generated. Try again.", { id: loadingToast });
             }
-        } catch (error) {
+        } catch (error: any) {
             console.error(error);
-            alert('Failed to tailor resume with AI.');
+            toast.error(error.message || 'Failed to tailor resume with AI.', { id: loadingToast });
         } finally {
             setIsOptimizing(false);
         }
@@ -63,7 +73,7 @@ export function AIOptimizer() {
         try {
             const { data: { user } } = await supabase.auth.getUser();
             if (!user) {
-                alert("Please sign in to save your resume.");
+                toast.error("Please sign in to save your resume.");
                 return;
             }
 
@@ -76,10 +86,11 @@ export function AIOptimizer() {
 
             if (error) throw error;
             setSaveSuccess(true);
+            toast.success("Resume saved to history!");
             setTimeout(() => setSaveSuccess(false), 3000);
         } catch (error) {
             console.error(error);
-            alert("Failed to save resume.");
+            toast.error("Failed to save resume.");
         } finally {
             setIsSaving(false);
         }
@@ -126,6 +137,7 @@ export function AIOptimizer() {
                                 <SelectItem value="ATS Rewrite">Full ATS Rewrite</SelectItem>
                                 <SelectItem value="Grammar & spelling">Fix Grammar & Spelling</SelectItem>
                                 <SelectItem value="Keyword optimization">Add Keywords</SelectItem>
+                                <SelectItem value="ATS Score Booster">ATS Score Booster</SelectItem>
                             </SelectContent>
                         </Select>
                     </div>

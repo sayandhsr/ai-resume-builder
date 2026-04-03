@@ -10,6 +10,8 @@ export const metadata: Metadata = {
   description: "Create modern, ATS-optimized professional resumes with AI.",
 };
 
+import { Toaster } from "@/components/ui/sonner";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -19,6 +21,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.className} min-h-screen bg-background antialiased flex flex-col`}>
         <MainLayout>{children}</MainLayout>
+        <Toaster position="top-right" richColors />
       </body>
     </html>
   );

@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Plus, X, Wand2 } from "lucide-react";
 import { v4 as uuidv4 } from "uuid";
+import { toast } from "sonner";
 
 export function SkillsForm() {
     const { data, addSkill, removeSkill, setResumeData } = useResumeStore();
@@ -15,8 +16,14 @@ export function SkillsForm() {
     const [isOptimizing, setIsOptimizing] = useState(false);
 
     const handleOptimizeSkills = async () => {
+        if (skills.length === 0) {
+            toast.error("Please add some skills first.");
+            return;
+        }
+
         const skillsText = skills.map(s => s.name).join(", ");
         setIsOptimizing(true);
+        const loadingToast = toast.loading("Optimizing skills...");
         try {
             const res = await fetch('/api/generate', {
                 method: 'POST',
@@ -36,18 +43,17 @@ export function SkillsForm() {
 
             if (dataResult.optimizedContent) {
                 const optimizedSkills = dataResult.optimizedContent.split(',').map((s: string) => s.trim()).filter(Boolean);
-                // Clear and repopulate skills (simple version: overwrite data with new skills)
-                // For a more robust version, we'd need a clearSkills action, but we'll use setResumeData for now
                 const newSkills = optimizedSkills.map((name: string) => ({
                     id: uuidv4(),
                     name,
                     category: 'technical' as const
                 }));
                 setResumeData({ ...data, skills: newSkills });
+                toast.success("Skills optimized successfully!", { id: loadingToast });
             }
         } catch (error) {
             console.error(error);
-            alert('Failed to optimize skills with AI.');
+            toast.error("Could not optimize skills at this time.", { id: loadingToast });
         } finally {
             setIsOptimizing(false);
         }

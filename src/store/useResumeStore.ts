@@ -50,7 +50,7 @@ export interface Certification {
 }
 
 export type AIModel = 'google/gemini-pro' | 'x-ai/grok-2-1212' | 'anthropic/claude-3-haiku';
-export type OptimizationType = 'ATS Rewrite' | 'Grammar & spelling' | 'Keyword optimization';
+export type OptimizationType = 'ATS Rewrite' | 'Grammar & spelling' | 'Keyword optimization' | 'ATS Score Booster';
 
 export interface ResumeSettings {
     jobRole: string;

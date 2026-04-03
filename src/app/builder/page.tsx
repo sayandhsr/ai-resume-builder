@@ -48,13 +48,13 @@ export default function BuilderPage() {
 
             <div className="flex flex-col lg:flex-row gap-8 items-start w-full relative">
                 {/* Left Side: Input Form */}
-                <div className="w-full lg:w-1/2 space-y-6">
+                <div className="w-full lg:w-7/12 space-y-6">
                     <ResumeBuilderStepper />
                     <AIOptimizer />
                 </div>
 
                 {/* Right Side: Live Preview (Fixed while scrolling left) */}
-                <div className="w-full lg:w-1/2 sticky top-24">
+                <div className="w-full lg:w-5/12 sticky top-24">
                     <ResumePreview />
                 </div>
             </div>

@@ -2,13 +2,14 @@
 
 import { useState } from "react";
 import { useResumeStore } from "@/store/useResumeStore";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Plus, Trash2, Wand2 } from "lucide-react";
 import { v4 as uuidv4 } from "uuid";
+import { toast } from "sonner";
 
 export function ExperienceForm() {
     const { data, addExperience, updateExperience, removeExperience } = useResumeStore();
@@ -26,9 +27,13 @@ export function ExperienceForm() {
     };
 
     const handleOptimizeDescription = async (id: string, description: string) => {
-        if (!description.trim()) return;
+        if (!description.trim()) {
+            toast.error("Please enter a description first.");
+            return;
+        }
 
         setIsOptimizing(id);
+        const loadingToast = toast.loading("Optimizing experience...");
         try {
             const res = await fetch('/api/generate', {
                 method: 'POST',
@@ -48,10 +53,11 @@ export function ExperienceForm() {
 
             if (data.optimizedContent) {
                 updateExperience(id, { description: data.optimizedContent });
+                toast.success("Experience optimized!", { id: loadingToast });
             }
         } catch (error) {
             console.error(error);
-            alert('Failed to optimize with AI. Please check your API key.');
+            toast.error("Could not optimize at this time.", { id: loadingToast });
         } finally {
             setIsOptimizing(null);
         }

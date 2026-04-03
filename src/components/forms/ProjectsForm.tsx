@@ -9,6 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Plus, Trash2, Wand2 } from "lucide-react";
 import { v4 as uuidv4 } from "uuid";
+import { toast } from "sonner";
 
 export function ProjectsForm() {
     const { data, addProject, updateProject, removeProject } = useResumeStore();
@@ -16,9 +17,13 @@ export function ProjectsForm() {
     const [isOptimizing, setIsOptimizing] = useState<string | null>(null);
 
     const handleOptimizeDescription = async (id: string, description: string) => {
-        if (!description.trim()) return;
+        if (!description.trim()) {
+            toast.error("Please enter a description first.");
+            return;
+        }
 
         setIsOptimizing(id);
+        const loadingToast = toast.loading("Optimizing project description...");
         try {
             const res = await fetch('/api/generate', {
                 method: 'POST',
@@ -38,10 +43,11 @@ export function ProjectsForm() {
 
             if (dataResult.optimizedContent) {
                 updateProject(id, { description: dataResult.optimizedContent });
+                toast.success("Project description optimized!", { id: loadingToast });
             }
         } catch (error) {
             console.error(error);
-            alert('Failed to optimize with AI.');
+            toast.error("Could not optimize at this time.", { id: loadingToast });
         } finally {
             setIsOptimizing(null);
         }
