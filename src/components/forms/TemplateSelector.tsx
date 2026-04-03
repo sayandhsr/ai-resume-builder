@@ -166,17 +166,17 @@ export function TemplateSelector() {
               whileTap={{ scale: 0.98 }}
               onClick={() => updateSettings({ templateId: template.id })}
               className={`
-                group flex flex-col rounded-xl bg-card text-card-foreground shadow-sm 
-                transition-all duration-200 cursor-pointer 
-                hover:shadow-md
+                group flex flex-col rounded-xl bg-white/60 dark:bg-[#111827]/60 backdrop-blur-[12px] text-card-foreground shadow-[0_8px_24px_rgba(0,0,0,0.08)] dark:shadow-[0_10px_30px_rgba(0,0,0,0.4)] 
+                transition-all duration-300 ease-out cursor-pointer 
+                hover:-translate-y-[2px]
                 ${isSelected 
-                  ? "border-2 border-indigo-500 ring-4 ring-indigo-500/20" 
-                  : "border border-border/50 hover:border-indigo-400/50"}
+                  ? "border-2 border-indigo-500 ring-4 ring-indigo-500/30" 
+                  : "border border-border/50 dark:border-white/10 hover:shadow-xl"}
               `}
             >
               
               {/* Top Banner (Visible Details) */}
-              <div className="p-4 border-b border-border/50 bg-muted/20 flex flex-col gap-1 rounded-t-xl">
+              <div className="p-4 border-b border-border/50 bg-black/5 dark:bg-white/5 flex flex-col gap-1 rounded-t-xl">
                  <div className="flex items-start justify-between">
                    <h3 className={`font-bold text-sm leading-tight transition-colors ${isSelected ? "text-indigo-600 dark:text-indigo-400" : "group-hover:text-indigo-500"}`}>{template.name}</h3>
                    {isSelected && (

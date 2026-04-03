@@ -20,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.className} min-h-screen bg-background antialiased flex flex-col`}>
+      <body className={`${inter.className} min-h-screen antialiased flex flex-col`}>
         <ThemeProvider
             attribute="class"
             defaultTheme="system"
