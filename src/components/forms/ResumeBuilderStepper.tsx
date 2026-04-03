@@ -49,7 +49,7 @@ export function ResumeBuilderStepper() {
     };
 
     return (
-        <div className="w-full bg-white rounded-xl shadow-lg border border-border overflow-hidden flex flex-col h-full">
+        <div className="w-full bg-white rounded-xl shadow-lg border border-border overflow-visible flex flex-col">
             {/* Stepper Header */}
             <div className="bg-background px-6 py-4 border-b border-border">
                 <div className="flex items-center justify-between overflow-x-auto pb-2 gap-4 hide-scrollbar">
@@ -78,8 +78,8 @@ export function ResumeBuilderStepper() {
                 </div>
             </div>
 
-            {/* Stepper Content */}
-            <div className="p-6 bg-background/50 relative min-h-[500px] flex-1">
+            {/* Stepper Content — overflow-visible so dropdowns are not clipped */}
+            <div className="p-6 bg-background/50 relative min-h-[400px] overflow-visible">
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={currentStep}
@@ -87,7 +87,7 @@ export function ResumeBuilderStepper() {
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: -20 }}
                         transition={{ duration: 0.2 }}
-                        className="h-full"
+                        className="space-y-4"
                     >
                         {renderStepContent()}
                     </motion.div>

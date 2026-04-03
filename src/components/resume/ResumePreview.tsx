@@ -29,9 +29,14 @@ export function ResumePreview() {
                                 {personalInfo.linkedin}
                             </a>
                         )}
+                        {personalInfo.github && (
+                            <a href={`https://${personalInfo.github}`} target="_blank" rel="noreferrer">
+                                {personalInfo.linkedin ? '• ' : ''}{personalInfo.github}
+                            </a>
+                        )}
                         {personalInfo.portfolio && (
                             <a href={`https://${personalInfo.portfolio}`} target="_blank" rel="noreferrer">
-                                • {personalInfo.portfolio}
+                                {(personalInfo.linkedin || personalInfo.github) ? '• ' : ''}{personalInfo.portfolio}
                             </a>
                         )}
                     </div>

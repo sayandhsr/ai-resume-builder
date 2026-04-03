@@ -17,7 +17,7 @@ export function SettingsForm() {
                 <CardDescription>Configure AI generation and layout settings.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
                         <Label>Target Job Role / Domain</Label>
                         <Input
@@ -36,7 +36,7 @@ export function SettingsForm() {
                             <SelectTrigger>
                                 <SelectValue placeholder="Select job type" />
                             </SelectTrigger>
-                            <SelectContent>
+                            <SelectContent position="popper" sideOffset={5} className="z-50">
                                 <SelectItem value="Internship">Internship</SelectItem>
                                 <SelectItem value="Part-time">Part-time</SelectItem>
                                 <SelectItem value="Full-time">Full-time</SelectItem>
@@ -53,7 +53,7 @@ export function SettingsForm() {
                             <SelectTrigger>
                                 <SelectValue placeholder="Select tone" />
                             </SelectTrigger>
-                            <SelectContent>
+                            <SelectContent position="popper" sideOffset={5} className="z-50">
                                 <SelectItem value="Clean">Clean</SelectItem>
                                 <SelectItem value="Professional">Professional</SelectItem>
                                 <SelectItem value="ATS-optimized">ATS-optimized</SelectItem>
@@ -70,7 +70,7 @@ export function SettingsForm() {
                             <SelectTrigger>
                                 <SelectValue placeholder="Select max pages" />
                             </SelectTrigger>
-                            <SelectContent>
+                            <SelectContent position="popper" sideOffset={5} className="z-50">
                                 <SelectItem value="1">1 Page (Standard)</SelectItem>
                                 <SelectItem value="2">2 Pages (Detailed)</SelectItem>
                             </SelectContent>

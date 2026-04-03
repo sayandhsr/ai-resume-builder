@@ -20,7 +20,7 @@ export function PersonalInfoForm() {
                 <CardDescription>Enter your contact details to get started.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
                         <Label htmlFor="fullName">Full Name</Label>
                         <Input
@@ -74,6 +74,16 @@ export function PersonalInfoForm() {
                         />
                     </div>
                     <div className="space-y-2">
+                        <Label htmlFor="github">GitHub URL</Label>
+                        <Input
+                            id="github"
+                            name="github"
+                            placeholder="github.com/johndoe"
+                            value={personalInfo.github}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div className="space-y-2 md:col-span-2">
                         <Label htmlFor="portfolio">Portfolio / Website</Label>
                         <Input
                             id="portfolio"

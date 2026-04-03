@@ -8,6 +8,7 @@ export interface PersonalInfo {
     email: string;
     phone: string;
     linkedin: string;
+    github: string;
     portfolio: string;
     location: string;
 }
@@ -101,7 +102,7 @@ interface ResumeStore {
 }
 
 const initialData: ResumeData = {
-    personalInfo: { fullName: '', email: '', phone: '', linkedin: '', portfolio: '', location: '' },
+    personalInfo: { fullName: '', email: '', phone: '', linkedin: '', github: '', portfolio: '', location: '' },
     education: [],
     experience: [],
     projects: [],

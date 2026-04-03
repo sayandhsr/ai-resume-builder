@@ -122,7 +122,7 @@ export function AIOptimizer() {
                             <SelectTrigger>
                                 <SelectValue placeholder="Select AI Model" />
                             </SelectTrigger>
-                            <SelectContent>
+                            <SelectContent position="popper" sideOffset={5} className="z-50">
                                 <SelectItem value="google/gemini-pro">Gemini Pro (Google)</SelectItem>
                                 <SelectItem value="x-ai/grok-2-1212">Grok 2 (xAI)</SelectItem>
                                 <SelectItem value="anthropic/claude-3-haiku">Claude 3 Haiku (Anthropic)</SelectItem>
@@ -139,7 +139,7 @@ export function AIOptimizer() {
                             <SelectTrigger>
                                 <SelectValue placeholder="Select Task" />
                             </SelectTrigger>
-                            <SelectContent>
+                            <SelectContent position="popper" sideOffset={5} className="z-50">
                                 <SelectItem value="ATS Rewrite">Full ATS Rewrite</SelectItem>
                                 <SelectItem value="Grammar & spelling">Fix Grammar & Spelling</SelectItem>
                                 <SelectItem value="Keyword optimization">Add Keywords</SelectItem>
