@@ -3,7 +3,7 @@
 import { useResumeStore, JobType, ResumeTone } from "@/store/useResumeStore";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { FixedSelect, SelectItem } from "@/components/ui/fixed-select";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 export function SettingsForm() {
@@ -29,52 +29,40 @@ export function SettingsForm() {
 
                     <div className="space-y-2">
                         <Label>Job Type</Label>
-                        <Select
+                        <FixedSelect
                             value={settings.jobType}
                             onValueChange={(val: JobType) => updateSettings({ jobType: val })}
+                            placeholder="Select job type"
                         >
-                            <SelectTrigger>
-                                <SelectValue placeholder="Select job type" />
-                            </SelectTrigger>
-                            <SelectContent position="popper" sideOffset={5} className="z-50">
-                                <SelectItem value="Internship">Internship</SelectItem>
-                                <SelectItem value="Part-time">Part-time</SelectItem>
-                                <SelectItem value="Full-time">Full-time</SelectItem>
-                            </SelectContent>
-                        </Select>
+                            <SelectItem value="Internship">Internship</SelectItem>
+                            <SelectItem value="Part-time">Part-time</SelectItem>
+                            <SelectItem value="Full-time">Full-time</SelectItem>
+                        </FixedSelect>
                     </div>
 
                     <div className="space-y-2">
                         <Label>Resume Tone (AI Prompts)</Label>
-                        <Select
+                        <FixedSelect
                             value={settings.tone}
                             onValueChange={(val: ResumeTone) => updateSettings({ tone: val })}
+                            placeholder="Select tone"
                         >
-                            <SelectTrigger>
-                                <SelectValue placeholder="Select tone" />
-                            </SelectTrigger>
-                            <SelectContent position="popper" sideOffset={5} className="z-50">
-                                <SelectItem value="Clean">Clean</SelectItem>
-                                <SelectItem value="Professional">Professional</SelectItem>
-                                <SelectItem value="ATS-optimized">ATS-optimized</SelectItem>
-                            </SelectContent>
-                        </Select>
+                            <SelectItem value="Clean">Clean</SelectItem>
+                            <SelectItem value="Professional">Professional</SelectItem>
+                            <SelectItem value="ATS-optimized">ATS-optimized</SelectItem>
+                        </FixedSelect>
                     </div>
 
                     <div className="space-y-2">
                         <Label>Length Constraint</Label>
-                        <Select
+                        <FixedSelect
                             value={settings.pageCount}
                             onValueChange={(val: "1" | "2") => updateSettings({ pageCount: val })}
+                            placeholder="Select max pages"
                         >
-                            <SelectTrigger>
-                                <SelectValue placeholder="Select max pages" />
-                            </SelectTrigger>
-                            <SelectContent position="popper" sideOffset={5} className="z-50">
-                                <SelectItem value="1">1 Page (Standard)</SelectItem>
-                                <SelectItem value="2">2 Pages (Detailed)</SelectItem>
-                            </SelectContent>
-                        </Select>
+                            <SelectItem value="1">1 Page (Standard)</SelectItem>
+                            <SelectItem value="2">2 Pages (Detailed)</SelectItem>
+                        </FixedSelect>
                         <p className="text-[10px] text-muted-foreground mt-1 px-1">
                           AI will prioritize content to fit the selected length.
                         </p>

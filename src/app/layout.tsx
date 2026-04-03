@@ -22,8 +22,10 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.className} min-h-screen bg-background antialiased flex flex-col`}>
         <ThemeProvider>
-          <MainLayout>{children}</MainLayout>
-          <Toaster position="top-right" richColors />
+          <div className="relative z-0 flex whitespace-normal flex-col flex-1">
+            <MainLayout>{children}</MainLayout>
+            <Toaster position="top-right" richColors />
+          </div>
         </ThemeProvider>
       </body>
     </html>

@@ -33,7 +33,7 @@ export function ThemeSwitcher() {
           <span className="sr-only">Toggle theme</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-48 rounded-xl p-2 z-[60]">
+      <DropdownMenuContent align="end" className="w-48 rounded-xl p-2 z-[9999]">
         <DropdownMenuLabel className="px-2 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
           Choose Theme
         </DropdownMenuLabel>

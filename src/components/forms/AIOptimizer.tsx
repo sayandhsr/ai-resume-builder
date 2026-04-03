@@ -5,7 +5,7 @@ import { useResumeStore, AIModel, OptimizationType } from "@/store/useResumeStor
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { FixedSelect, SelectItem } from "@/components/ui/fixed-select";
 import { Label } from "@/components/ui/label";
 import { Wand2, Save, CheckCircle2, Sparkles, Download } from "lucide-react";
 import html2canvas from "html2canvas";
@@ -162,37 +162,29 @@ export function AIOptimizer() {
                 <div className="grid grid-cols-1 gap-4">
                     <div className="space-y-2">
                         <Label>AI Model</Label>
-                        <Select 
+                        <FixedSelect 
                             value={settings.aiModel} 
                             onValueChange={(val) => updateSettings({ aiModel: val as AIModel })}
+                            placeholder="Select AI Model"
                         >
-                            <SelectTrigger>
-                                <SelectValue placeholder="Select AI Model" />
-                            </SelectTrigger>
-                            <SelectContent position="popper" sideOffset={5} className="z-50">
-                                <SelectItem value="google/gemini-pro">Gemini Pro (Google)</SelectItem>
-                                <SelectItem value="x-ai/grok-2-1212">Grok 2 (xAI)</SelectItem>
-                                <SelectItem value="anthropic/claude-3-haiku">Claude 3 Haiku (Anthropic)</SelectItem>
-                            </SelectContent>
-                        </Select>
+                            <SelectItem value="google/gemini-pro">Gemini Pro (Google)</SelectItem>
+                            <SelectItem value="x-ai/grok-2-1212">Grok 2 (xAI)</SelectItem>
+                            <SelectItem value="anthropic/claude-3-haiku">Claude 3 Haiku (Anthropic)</SelectItem>
+                        </FixedSelect>
                     </div>
 
                     <div className="space-y-2">
                         <Label>Optimization Task</Label>
-                        <Select 
+                        <FixedSelect 
                             value={settings.optimizationType} 
                             onValueChange={(val) => updateSettings({ optimizationType: val as OptimizationType })}
+                            placeholder="Select Task"
                         >
-                            <SelectTrigger>
-                                <SelectValue placeholder="Select Task" />
-                            </SelectTrigger>
-                            <SelectContent position="popper" sideOffset={5} className="z-50">
-                                <SelectItem value="ATS Rewrite">Full ATS Rewrite</SelectItem>
-                                <SelectItem value="Grammar & spelling">Fix Grammar & Spelling</SelectItem>
-                                <SelectItem value="Keyword optimization">Add Keywords</SelectItem>
-                                <SelectItem value="ATS Score Booster">ATS Score Booster</SelectItem>
-                            </SelectContent>
-                        </Select>
+                            <SelectItem value="ATS Rewrite">Full ATS Rewrite</SelectItem>
+                            <SelectItem value="Grammar & spelling">Fix Grammar & Spelling</SelectItem>
+                            <SelectItem value="Keyword optimization">Add Keywords</SelectItem>
+                            <SelectItem value="ATS Score Booster">ATS Score Booster</SelectItem>
+                        </FixedSelect>
                     </div>
                 </div>
 
