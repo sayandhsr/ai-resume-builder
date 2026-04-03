@@ -6,22 +6,22 @@
 
 :root {
   --background: hsl(0 0% 100%); /* #FFFFFF */
-  --foreground: hsl(222.2 84% 4.9%); /* #111827 */
+  --foreground: hsl(0 0% 0%); /* #000000 */
   
-  --card: hsl(210 20% 98%); /* #F9FAFB */
-  --card-foreground: hsl(222.2 84% 4.9%);
+  --card: hsl(215 32% 97%); /* #F5F7FA */
+  --card-foreground: hsl(0 0% 0%);
   
   --popover: hsl(0 0% 100%);
-  --popover-foreground: hsl(222.2 84% 4.9%);
+  --popover-foreground: hsl(0 0% 0%);
   
-  --primary: hsl(45 61% 52%); /* #D4AF37 (Gold) */
-  --primary-foreground: hsl(0 0% 0%);
+  --primary: hsl(238 82% 65%); /* #6366f1 Indigo 500 */
+  --primary-foreground: hsl(0 0% 100%);
   
   --secondary: hsl(210 20% 98%);
   --secondary-foreground: hsl(222.2 47.4% 11.2%);
   
   --muted: hsl(210 20% 98%);
-  --muted-foreground: hsl(215.4 16.3% 46.9%); /* #6B7280 */
+  --muted-foreground: hsl(215.4 16.3% 46.9%);
   
   --accent: hsl(210 20% 98%);
   --accent-foreground: hsl(222.2 47.4% 11.2%);
@@ -29,68 +29,28 @@
   --destructive: hsl(0 84.2% 60.2%);
   --destructive-foreground: hsl(210 40% 98%);
   
-  --border: hsl(214.3 31.8% 91.4%); /* #E5E7EB approximation */
+  --border: hsl(214.3 31.8% 91.4%);
   --input: hsl(214.3 31.8% 91.4%);
-  --ring: hsl(45 61% 52%);
+  --ring: hsl(238 82% 65%);
   
   --radius: 0.75rem; /* 12px */
 }
 
-/* Default Dark */
-.theme-dark {
-  --background: hsl(210 20% 6%); /* #0B0F14 */
-  --foreground: hsl(210 40% 98%);
+/* Strict Dark Mode */
+.dark {
+  --background: hsl(213 29% 6%); /* #0B0F14 */
+  --foreground: hsl(0 0% 100%); /* #FFFFFF */
+  
   --card: hsl(222.2 84% 11%); /* #111827 */
-  --card-foreground: hsl(210 40% 98%);
+  --card-foreground: hsl(0 0% 100%);
+  
   --popover: hsl(222.2 84% 11%);
-  --popover-foreground: hsl(210 40% 98%);
+  --popover-foreground: hsl(0 0% 100%);
+  
   --border: hsl(217.2 32.6% 17.5%);
-  --primary: hsl(45 61% 52%);
-}
-
-/* Midnight Blue */
-.theme-midnight {
-  --background: hsl(222.2 47% 11%); /* #0F172A */
-  --foreground: hsl(210 40% 98%);
-  --card: hsl(222.2 47% 17%); /* #1E293B */
-  --card-foreground: hsl(210 40% 98%);
-  --popover: hsl(222.2 47% 17%);
-  --border: hsl(217.2 32.6% 25%);
-  --primary: hsl(45 61% 52%);
-}
-
-/* AMOLED Black */
-.theme-amoled {
-  --background: hsl(0 0% 0%); /* #000000 */
-  --foreground: hsl(210 40% 98%);
-  --card: hsl(0 0% 4%); /* #0A0A0A */
-  --card-foreground: hsl(210 40% 98%);
-  --popover: hsl(0 0% 4%);
-  --border: hsl(0 0% 15%);
-  --primary: hsl(45 61% 52%);
-}
-
-/* Soft Dark */
-.theme-soft {
-  --background: hsl(222.2 84% 11%); /* #111827 */
-  --foreground: hsl(210 40% 98%);
-  --card: hsl(217.2 32.6% 17.5%); /* #1F2937 */
-  --card-foreground: hsl(210 40% 98%);
-  --popover: hsl(217.2 32.6% 17.5%);
-  --border: hsl(217.2 32.6% 25%);
-  --primary: hsl(45 61% 52%);
-}
-
-/* Purple Dark */
-.theme-purple {
-  --background: hsl(260 50% 8%); /* #0F0A1F */
-  --foreground: hsl(210 40% 98%);
-  --card: hsl(260 45% 14%); /* #1A1333 */
-  --card-foreground: hsl(210 40% 98%);
-  --popover: hsl(260 45% 14%);
-  --border: hsl(260 45% 25%);
-  --primary: hsl(255 91% 77%); /* #A78BFA */
-  --ring: hsl(255 91% 77%);
+  --input: hsl(217.2 32.6% 17.5%);
+  --primary: hsl(238 82% 65%); 
+  --primary-foreground: hsl(0 0% 100%);
 }
 
 @theme inline {
@@ -124,6 +84,6 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground transition-colors duration-300;
   }
 }

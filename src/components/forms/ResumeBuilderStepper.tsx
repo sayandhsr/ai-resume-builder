@@ -8,11 +8,13 @@ import { ExperienceForm } from "@/components/forms/ExperienceForm";
 import { ProjectsForm } from "@/components/forms/ProjectsForm";
 import { SkillsForm } from "@/components/forms/SkillsForm";
 import { SettingsForm } from "@/components/forms/SettingsForm";
+import { TemplateSelector } from "@/components/forms/TemplateSelector";
 import { ChevronLeft, ChevronRight, Check } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 
 const STEPS = [
+    { id: "template", title: "Template" },
     { id: "personal", title: "Personal Info" },
     { id: "education", title: "Education" },
     { id: "experience", title: "Experience" },
@@ -38,12 +40,13 @@ export function ResumeBuilderStepper() {
 
     const renderStepContent = () => {
         switch (currentStep) {
-            case 0: return <PersonalInfoForm />;
-            case 1: return <EducationForm />;
-            case 2: return <ExperienceForm />;
-            case 3: return <ProjectsForm />;
-            case 4: return <SkillsForm />;
-            case 5: return <SettingsForm />;
+            case 0: return <TemplateSelector />;
+            case 1: return <PersonalInfoForm />;
+            case 2: return <EducationForm />;
+            case 3: return <ExperienceForm />;
+            case 4: return <ProjectsForm />;
+            case 5: return <SkillsForm />;
+            case 6: return <SettingsForm />;
             default: return null;
         }
     };

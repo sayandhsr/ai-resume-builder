@@ -60,6 +60,7 @@ export interface ResumeSettings {
     pageCount: '1' | '2';
     aiModel: AIModel;
     optimizationType: OptimizationType;
+    templateId: string;
 }
 
 export interface ResumeData {
@@ -114,7 +115,8 @@ const initialData: ResumeData = {
         tone: 'ATS-optimized', 
         pageCount: '1',
         aiModel: 'google/gemini-pro',
-        optimizationType: 'ATS Rewrite'
+        optimizationType: 'ATS Rewrite',
+        templateId: 'classic-ats'
     },
 };
 
