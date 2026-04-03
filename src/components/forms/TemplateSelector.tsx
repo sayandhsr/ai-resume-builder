@@ -84,6 +84,32 @@ const TemplatePreview = ({ templateId }: { templateId: string }) => {
                 </div>
             </div>
 
+            {/* Education */}
+            <div className="mb-1 shrink-0">
+                <h5 className={`${styles.headingStyle} text-[7px]`}>Education</h5>
+                <div className={styles.itemSpacing}>
+                    <div className="flex justify-between items-baseline">
+                        <div className="font-bold text-[6.5px]">B.S. Computer Science</div>
+                        <div className="text-[5.5px] text-gray-600">2018 - 2022</div>
+                    </div>
+                    <div className="text-[5.5px] text-gray-600">University of California, Berkeley</div>
+                </div>
+            </div>
+            
+            {/* Projects */}
+            <div className="mb-1 shrink-0">
+                <h5 className={`${styles.headingStyle} text-[7px]`}>Projects</h5>
+                <div className={styles.itemSpacing}>
+                    <div>
+                        <div className="flex justify-between items-baseline font-bold text-[6.5px]">
+                            <span>AI Resume Builder</span>
+                            <span className="font-normal text-[5.5px] text-indigo-600">github.com/johndoe/project</span>
+                        </div>
+                        <p className="text-[5.5px] mt-0.5">Developed an end-to-end SAAS platform using React, Node.js and OpenAI API reaching 10k MRR.</p>
+                    </div>
+                </div>
+            </div>
+
             {/* Skills */}
             <div className="mt-auto shrink-0 pb-1">
                 <h5 className={`${styles.headingStyle} text-[7px]`}>Skills</h5>
