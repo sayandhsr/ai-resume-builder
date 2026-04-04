@@ -92,16 +92,16 @@ export function SkillsForm() {
     const softSkills = skills.filter((s) => s.category === "soft");
 
     return (
-        <Card className="border-none shadow-sm bg-card text-card-foreground">
-            <CardHeader className="flex flex-row items-center justify-between">
+        <Card className="border-none shadow-none bg-transparent p-0">
+            <CardHeader className="flex flex-row items-center justify-between px-0">
                 <div>
-                    <CardTitle>Skills</CardTitle>
+                    <CardTitle className="text-xl">Skills</CardTitle>
                     <CardDescription>Add relevant technical and soft skills for the role.</CardDescription>
                 </div>
                 <Button 
                     variant="outline" 
                     size="sm" 
-                    className="gap-2 text-primary" 
+                    className="gap-2" 
                     onClick={handleOptimizeSkills}
                     disabled={isOptimizing || skills.length === 0}
                 >
@@ -109,7 +109,7 @@ export function SkillsForm() {
                     {isOptimizing ? 'Optimizing...' : 'Optimize with AI'}
                 </Button>
             </CardHeader>
-            <CardContent className="space-y-6">
+            <CardContent className="space-y-6 px-0">
 
                 {/* Technical Skills */}
                 <div className="space-y-4">

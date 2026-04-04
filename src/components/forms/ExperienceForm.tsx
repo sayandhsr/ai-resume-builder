@@ -64,22 +64,22 @@ export function ExperienceForm() {
     };
 
     return (
-        <Card className="border-none shadow-sm bg-card text-card-foreground">
-            <CardHeader className="flex flex-row items-center justify-between">
+        <Card className="border-none shadow-none bg-transparent p-0">
+            <CardHeader className="flex flex-row items-center justify-between px-0">
                 <div>
-                    <CardTitle>Work Experience</CardTitle>
+                    <CardTitle className="text-xl">Work Experience</CardTitle>
                     <CardDescription>Add relevant work history and achievements.</CardDescription>
                 </div>
                 <Button onClick={handleAdd} size="sm" variant="outline" className="gap-2">
                     <Plus className="h-4 w-4" /> Add Experience
                 </Button>
             </CardHeader>
-            <CardContent className="space-y-6">
+            <CardContent className="space-y-6 px-0">
                 {experience.length === 0 ? (
                     <p className="text-muted-foreground text-sm py-4">No experience added yet. Click the button above to add one.</p>
                 ) : (
                     experience.map((exp, index) => (
-                        <div key={exp.id} className="relative border rounded-lg p-4 space-y-4 bg-background">
+                        <div key={exp.id} className="relative border border-border rounded-xl p-5 space-y-5 bg-background/50">
                             <div className="absolute top-4 right-4 text-xs font-semibold text-muted-foreground">
                                 #{index + 1}
                             </div>

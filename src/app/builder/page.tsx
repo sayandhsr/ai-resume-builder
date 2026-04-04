@@ -7,6 +7,7 @@ import { ResumeBuilderStepper } from "@/components/forms/ResumeBuilderStepper";
 import { ResumePreview } from "@/components/resume/ResumePreview";
 import { AIOptimizer } from "@/components/forms/AIOptimizer";
 import { Reveal } from "@/components/ui/reveal";
+import { motion } from "framer-motion";
 
 export default function BuilderPage() {
     const [user, setUser] = useState<any>(null);
@@ -30,8 +31,8 @@ export default function BuilderPage() {
     if (loading) {
         return (
             <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-                <p className="text-muted-foreground">Checking authentication...</p>
+                <div className="h-8 w-8 rounded-full border-2 border-foreground/20 border-t-foreground animate-spin" />
+                <p className="text-sm text-muted-foreground">Loading...</p>
             </div>
         );
     }
@@ -39,29 +40,46 @@ export default function BuilderPage() {
     if (!user) return null;
 
     return (
-        <div className="flex flex-col gap-6 pb-12">
-            <Reveal>
-                <div className="space-y-1">
-                    <h1 className="text-3xl font-bold tracking-tight text-foreground">Resume Builder</h1>
-                    <p className="text-muted-foreground">Fill in your details below. You can preview changes instantly.</p>
-                </div>
-            </Reveal>
-
-            <div className="flex flex-col lg:flex-row gap-8 items-start w-full">
-                {/* Left Side: Input Form — scrollable */}
-                <div className="w-full lg:w-1/2 space-y-6 overflow-visible">
+        <div className="flex flex-col lg:flex-row min-h-[calc(100vh-4rem)]">
+            {/* Left Side: Form — 45% */}
+            <div className="w-full lg:w-[45%] overflow-y-auto bg-background">
+                <div className="max-w-2xl mx-auto px-6 sm:px-8 lg:px-10 py-12 space-y-8">
                     <Reveal>
+                        <motion.div
+                            className="space-y-2"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5 }}
+                        >
+                            <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">
+                                Resume Builder
+                            </h1>
+                            <p className="text-muted-foreground text-base leading-relaxed">
+                                Fill in your details below. Preview changes instantly on the right.
+                            </p>
+                        </motion.div>
+                    </Reveal>
+
+                    <Reveal delay={0.1}>
                         <ResumeBuilderStepper />
                     </Reveal>
-                    <Reveal>
+
+                    <Reveal delay={0.15}>
                         <AIOptimizer />
                     </Reveal>
                 </div>
+            </div>
 
-                {/* Right Side: Live Preview — sticky */}
-                <div className="w-full lg:w-1/2 lg:sticky lg:top-20 h-fit">
-                    <Reveal>
-                        <ResumePreview />
+            {/* Divider */}
+            <div className="hidden lg:block w-px bg-border" />
+
+            {/* Right Side: Preview — 55% */}
+            <div className="w-full lg:w-[55%] lg:sticky lg:top-16 lg:h-[calc(100vh-4rem)] overflow-y-auto bg-secondary/50 dark:bg-card/30">
+                <div className="p-8 lg:p-12 flex items-start justify-center min-h-full">
+                    <Reveal delay={0.2}>
+                        <div className="w-full max-w-[640px]">
+                            <ResumePreview />
+                        </div>
                     </Reveal>
                 </div>
             </div>

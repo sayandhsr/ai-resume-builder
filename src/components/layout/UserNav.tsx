@@ -50,8 +50,8 @@ export function UserNav() {
 
     if (!user) {
         return (
-            <Button onClick={handleLogin} size="sm">
-                Sign In with Google
+            <Button onClick={handleLogin} size="sm" className="text-sm">
+                Sign In
             </Button>
         );
     }
@@ -59,16 +59,18 @@ export function UserNav() {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                    <Avatar className="h-8 w-8">
+                <Button variant="ghost" className="relative h-9 w-9 rounded-full">
+                    <Avatar className="h-9 w-9 border-2 border-border">
                         <AvatarImage src={user.user_metadata?.avatar_url} alt={user.email} />
-                        <AvatarFallback>{user.email?.charAt(0).toUpperCase()}</AvatarFallback>
+                        <AvatarFallback className="bg-secondary text-foreground text-sm font-medium">
+                            {user.email?.charAt(0).toUpperCase()}
+                        </AvatarFallback>
                     </Avatar>
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56" align="end" forceMount>
                 <DropdownMenuLabel className="font-normal">
-                    <div className="flex flex-col space-y-1">
+                    <div className="flex flex-col space-y-1.5">
                         <p className="text-sm font-medium leading-none">{user.user_metadata?.full_name || "User"}</p>
                         <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
                     </div>

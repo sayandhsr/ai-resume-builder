@@ -11,13 +11,13 @@ export function SettingsForm() {
     const { settings } = data;
 
     return (
-        <Card className="border-none shadow-sm bg-card text-card-foreground">
-            <CardHeader>
-                <CardTitle>Resume Settings</CardTitle>
+        <Card className="border-none shadow-none bg-transparent p-0">
+            <CardHeader className="px-0">
+                <CardTitle className="text-xl">Resume Settings</CardTitle>
                 <CardDescription>Configure AI generation and layout settings.</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <CardContent className="space-y-6 px-0">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div className="space-y-2">
                         <Label>Target Job Role / Domain</Label>
                         <Input

@@ -52,45 +52,51 @@ export function ResumeBuilderStepper() {
     };
 
     return (
-        <div className="w-full bg-card dark:bg-[#111827] rounded-xl shadow-sm border border-border dark:border-[#1F2937] overflow-visible flex flex-col">
+        <div className="w-full bg-card rounded-2xl border border-border overflow-visible flex flex-col">
             {/* Stepper Header */}
-            <div className="px-6 py-4 border-b border-border dark:border-[#1F2937]">
-                <div className="flex items-center justify-between overflow-x-auto pb-2 gap-4 hide-scrollbar">
+            <div className="px-6 py-5 border-b border-border">
+                <div className="flex items-center justify-between overflow-x-auto pb-1 gap-2 hide-scrollbar">
                     {STEPS.map((step, index) => {
                         const isActive = index === currentStep;
                         const isCompleted = index < currentStep;
                         return (
-                            <div key={step.id} className="flex flex-col items-center min-w-[70px]">
+                            <button
+                                key={step.id}
+                                className="flex flex-col items-center min-w-[60px] group cursor-pointer"
+                                onClick={() => setCurrentStep(index)}
+                            >
                                 <div
-                                    className={`h-8 w-8 rounded-full flex items-center justify-center text-sm font-medium transition-colors cursor-pointer
-                    ${isActive ? 'bg-[#4F46E5] text-white ring-2 ring-[#4F46E5] ring-offset-2 ring-offset-card' :
-                                            isCompleted ? 'bg-[#4F46E5]/20 text-[#4F46E5] hover:bg-[#4F46E5]/30' :
-                                                'bg-muted text-muted-foreground'}`}
-                                    onClick={() => setCurrentStep(index)}
+                                    className={`h-8 w-8 rounded-full flex items-center justify-center text-xs font-medium transition-all duration-200
+                                        ${isActive
+                                            ? 'bg-foreground text-background ring-2 ring-foreground ring-offset-2 ring-offset-card'
+                                            : isCompleted
+                                                ? 'bg-foreground/10 text-foreground'
+                                                : 'bg-secondary text-muted-foreground group-hover:bg-foreground/5'
+                                        }`}
                                 >
-                                    {isCompleted ? <Check className="h-4 w-4" /> : index + 1}
+                                    {isCompleted ? <Check className="h-3.5 w-3.5" /> : index + 1}
                                 </div>
-                                <span className={`text-xs mt-2 font-medium whitespace-nowrap
-                  ${isActive ? 'text-[#4F46E5]' : 'text-muted-foreground'}`}
+                                <span className={`text-[11px] mt-2 font-medium whitespace-nowrap transition-colors duration-200
+                                    ${isActive ? 'text-foreground' : 'text-muted-foreground'}`}
                                 >
                                     {step.title}
                                 </span>
-                            </div>
+                            </button>
                         );
                     })}
                 </div>
             </div>
 
-            {/* Stepper Content — overflow-visible so dropdowns are not clipped */}
+            {/* Stepper Content */}
             <div className="p-6 relative min-h-[400px] overflow-visible">
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={currentStep}
-                        initial={{ opacity: 0, x: 20 }}
+                        initial={{ opacity: 0, x: 16 }}
                         animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -20 }}
-                        transition={{ duration: 0.2 }}
-                        className="space-y-4"
+                        exit={{ opacity: 0, x: -16 }}
+                        transition={{ duration: 0.2, ease: "easeOut" }}
+                        className="space-y-6"
                     >
                         {renderStepContent()}
                     </motion.div>
@@ -98,24 +104,24 @@ export function ResumeBuilderStepper() {
             </div>
 
             {/* Stepper Footer Controls */}
-            <div className="p-4 px-6 border-t border-border dark:border-[#1F2937] flex items-center justify-between">
+            <div className="p-5 px-6 border-t border-border flex items-center justify-between">
                 <Button
                     variant="outline"
                     onClick={handlePrev}
                     disabled={currentStep === 0}
-                    className="flex items-center gap-2"
+                    className="gap-2"
                 >
                     <ChevronLeft className="h-4 w-4" /> Back
                 </Button>
 
                 {currentStep === STEPS.length - 1 ? (
-                    <Button className="flex items-center gap-2" asChild>
+                    <Button className="gap-2" asChild>
                         <Link href="/preview">
                             <Check className="h-4 w-4" /> Finish & Preview
                         </Link>
                     </Button>
                 ) : (
-                    <Button onClick={handleNext} className="flex items-center gap-2">
+                    <Button onClick={handleNext} className="gap-2">
                         Next <ChevronRight className="h-4 w-4" />
                     </Button>
                 )}

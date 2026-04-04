@@ -3,7 +3,10 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import MainLayout from "@/components/layout/MainLayout";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+});
 
 export const metadata: Metadata = {
   title: "AI ATS Resume Builder",
@@ -20,12 +23,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.className} min-h-screen antialiased flex flex-col`}>
+      <body className={`${inter.variable} font-sans min-h-screen antialiased flex flex-col`}>
         <ThemeProvider
             attribute="class"
             defaultTheme="light"
             enableSystem
-            disableTransitionOnChange
+            disableTransitionOnChange={false}
         >
           <div className="relative z-0 flex whitespace-normal flex-col flex-1">
             <MainLayout>{children}</MainLayout>

@@ -14,14 +14,14 @@ export function PersonalInfoForm() {
     };
 
     return (
-        <Card className="border-none shadow-sm bg-card text-card-foreground">
-            <CardHeader>
-                <CardTitle>Personal Information</CardTitle>
+        <Card className="border-none shadow-none bg-transparent p-0">
+            <CardHeader className="px-0">
+                <CardTitle className="text-xl">Personal Information</CardTitle>
                 <CardDescription>Enter your contact details to get started.</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
+            <CardContent className="space-y-5 px-0">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div className="space-y-2.5">
                         <Label htmlFor="fullName">Full Name</Label>
                         <Input
                             id="fullName"
@@ -31,7 +31,7 @@ export function PersonalInfoForm() {
                             onChange={handleChange}
                         />
                     </div>
-                    <div className="space-y-2">
+                    <div className="space-y-2.5">
                         <Label htmlFor="email">Email</Label>
                         <Input
                             id="email"
@@ -42,7 +42,7 @@ export function PersonalInfoForm() {
                             onChange={handleChange}
                         />
                     </div>
-                    <div className="space-y-2">
+                    <div className="space-y-2.5">
                         <Label htmlFor="phone">Phone Number</Label>
                         <Input
                             id="phone"
@@ -53,7 +53,7 @@ export function PersonalInfoForm() {
                             onChange={handleChange}
                         />
                     </div>
-                    <div className="space-y-2">
+                    <div className="space-y-2.5">
                         <Label htmlFor="location">Location</Label>
                         <Input
                             id="location"
@@ -63,7 +63,7 @@ export function PersonalInfoForm() {
                             onChange={handleChange}
                         />
                     </div>
-                    <div className="space-y-2">
+                    <div className="space-y-2.5">
                         <Label htmlFor="linkedin">LinkedIn URL</Label>
                         <Input
                             id="linkedin"
@@ -73,7 +73,7 @@ export function PersonalInfoForm() {
                             onChange={handleChange}
                         />
                     </div>
-                    <div className="space-y-2">
+                    <div className="space-y-2.5">
                         <Label htmlFor="github">GitHub URL</Label>
                         <Input
                             id="github"
@@ -83,7 +83,7 @@ export function PersonalInfoForm() {
                             onChange={handleChange}
                         />
                     </div>
-                    <div className="space-y-2 md:col-span-2">
+                    <div className="space-y-2.5 md:col-span-2">
                         <Label htmlFor="portfolio">Portfolio / Website</Label>
                         <Input
                             id="portfolio"

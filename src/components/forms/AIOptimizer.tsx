@@ -47,7 +47,6 @@ export function AIOptimizer() {
             const imgWidth = pdfWidth;
             const imgHeight = (canvas.height * pdfWidth) / canvas.width;
 
-            // If the image is taller than one page, scale it down to fit
             const finalHeight = imgHeight > pdfHeight ? pdfHeight : imgHeight;
             const finalWidth = imgHeight > pdfHeight ? (canvas.width * pdfHeight) / canvas.height : imgWidth;
 
@@ -150,17 +149,21 @@ export function AIOptimizer() {
     };
 
     return (
-        <Card className="border-none shadow-sm bg-card text-card-foreground">
+        <Card className="border-border">
             <CardHeader>
-                <div className="flex items-center gap-2">
-                    <Sparkles className="h-5 w-5 text-primary" />
-                    <CardTitle>AI ATS Optimizer</CardTitle>
+                <div className="flex items-center gap-2.5">
+                    <div className="h-8 w-8 rounded-lg bg-[#FF5623]/10 flex items-center justify-center">
+                        <Sparkles className="h-4 w-4 text-[#FF5623]" />
+                    </div>
+                    <div>
+                        <CardTitle>AI ATS Optimizer</CardTitle>
+                        <CardDescription>Select your preferred AI and optimization task.</CardDescription>
+                    </div>
                 </div>
-                <CardDescription>Select your preferred AI and optimization task.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-                <div className="grid grid-cols-1 gap-4">
-                    <div className="space-y-2">
+                <div className="grid grid-cols-1 gap-5">
+                    <div className="space-y-2.5">
                         <Label>AI Model</Label>
                         <FixedSelect 
                             value={settings.aiModel} 
@@ -173,7 +176,7 @@ export function AIOptimizer() {
                         </FixedSelect>
                     </div>
 
-                    <div className="space-y-2">
+                    <div className="space-y-2.5">
                         <Label>Optimization Task</Label>
                         <FixedSelect 
                             value={settings.optimizationType} 
@@ -188,17 +191,17 @@ export function AIOptimizer() {
                     </div>
                 </div>
 
-                <div className="space-y-2">
-                    <Label>Job Description (Optional for better tailoring)</Label>
+                <div className="space-y-2.5">
+                    <Label>Job Description (Optional)</Label>
                     <Textarea 
-                        placeholder="Paste the job description here..."
+                        placeholder="Paste the job description here for better tailoring..."
                         value={jobDescription}
                         onChange={(e) => setJobDescription(e.target.value)}
-                        className="min-h-[100px]"
+                        className="min-h-[120px]"
                     />
                     <Button 
                         onClick={handleTailorResume} 
-                        className="w-full gap-2" 
+                        className="w-full gap-2 h-12" 
                         disabled={isOptimizing}
                     >
                         <Wand2 className={`h-4 w-4 ${isOptimizing ? 'animate-spin' : ''}`} />
@@ -206,16 +209,16 @@ export function AIOptimizer() {
                     </Button>
                 </div>
                 
-                <div className="pt-2 border-t space-y-2">
+                <div className="pt-4 border-t border-border space-y-3">
                     <Button 
                         variant="outline" 
                         onClick={handleSaveToHistory} 
-                        className="w-full gap-2" 
+                        className="w-full gap-2 h-11" 
                         disabled={isSaving}
                     >
                         {saveSuccess ? (
                             <>
-                                <CheckCircle2 className="h-4 w-4 text-green-500" />
+                                <CheckCircle2 className="h-4 w-4 text-emerald-500" />
                                 Saved Successfully
                             </>
                         ) : (
@@ -228,7 +231,7 @@ export function AIOptimizer() {
                     <Button 
                         variant="outline" 
                         onClick={handleDownloadPDF} 
-                        className="w-full gap-2"
+                        className="w-full gap-2 h-11"
                         disabled={isDownloading}
                     >
                         <Download className={`h-4 w-4 ${isDownloading ? 'animate-bounce' : ''}`} />

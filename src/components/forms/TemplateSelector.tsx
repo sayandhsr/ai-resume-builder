@@ -149,7 +149,7 @@ export function TemplateSelector() {
     >
       <div className="space-y-2">
         <h2 className="text-2xl font-bold tracking-tight">Select Resume Template</h2>
-        <p className="text-sm text-muted-foreground">Pick a strictly ATS-friendly layout. Changing this dynamically alters formatting and spacing on your preview.</p>
+        <p className="text-sm text-muted-foreground leading-relaxed">Pick a strictly ATS-friendly layout. Changing this dynamically alters formatting and spacing on your preview.</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 h-[550px] overflow-y-auto pr-2 pb-6 custom-scrollbar">
@@ -166,11 +166,11 @@ export function TemplateSelector() {
               whileTap={{ scale: 0.98 }}
               onClick={() => updateSettings({ templateId: template.id })}
               className={`
-                group flex flex-col rounded-xl bg-card text-card-foreground shadow-sm 
+                group flex flex-col rounded-2xl bg-card text-card-foreground shadow-sm 
                 transition-all duration-300 ease-out cursor-pointer overflow-hidden
                 hover:-translate-y-[2px] hover:shadow-md
                 ${isSelected 
-                  ? "border-2 border-indigo-500 ring-2 ring-indigo-500/20" 
+                  ? "border-2 border-foreground ring-2 ring-foreground/10" 
                   : "border border-border"}
               `}
             >
@@ -178,11 +178,11 @@ export function TemplateSelector() {
               {/* Top Banner (Visible Details) */}
               <div className="p-4 border-b border-border/50 bg-black/5 dark:bg-white/5 flex flex-col gap-1 rounded-t-xl">
                  <div className="flex items-start justify-between">
-                   <h3 className={`font-bold text-sm leading-tight transition-colors ${isSelected ? "text-indigo-600 dark:text-indigo-400" : "group-hover:text-indigo-500"}`}>{template.name}</h3>
+                   <h3 className={`font-bold text-sm leading-tight transition-colors ${isSelected ? "text-foreground" : "group-hover:text-foreground"}`}>{template.name}</h3>
                    {isSelected && (
                      <motion.div 
                        initial={{ scale: 0 }} animate={{ scale: 1 }} 
-                       className="bg-indigo-500 text-white rounded-full p-0.5 shrink-0 ml-2"
+                       className="bg-foreground text-background rounded-full p-0.5 shrink-0 ml-2"
                      >
                        <Check className="h-3.5 w-3.5" />
                      </motion.div>
@@ -194,7 +194,7 @@ export function TemplateSelector() {
                        <Star className="h-2.5 w-2.5" /> PRO
                      </span>
                    )}
-                   <span className="text-[9px] bg-primary/10 text-primary uppercase tracking-wider font-bold px-2 py-0.5 rounded-full shadow-sm">
+                   <span className="text-[9px] bg-secondary text-muted-foreground uppercase tracking-wider font-bold px-2 py-0.5 rounded-full">
                      ATS FRIENDLY
                    </span>
                  </div>

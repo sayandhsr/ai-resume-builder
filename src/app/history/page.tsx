@@ -9,6 +9,7 @@ import { History, Trash2, FileEdit, Plus, Copy } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { motion } from "framer-motion";
 
 export default function HistoryPage() {
     const [resumes, setResumes] = useState<any[]>([]);
@@ -52,7 +53,6 @@ export default function HistoryPage() {
     };
 
     const handleDuplicate = (resume: any) => {
-        // Load data but don't pass the ID, effectively making it a new resume
         setResumeData(resume.data, null);
         router.push("/builder");
         toast.success("Resume duplicated! You are now editing a new copy.");
@@ -65,9 +65,12 @@ export default function HistoryPage() {
 
     if (loading) {
         return (
-            <div className="container mx-auto py-10 px-4">
+            <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-10 py-20">
                 <div className="flex items-center justify-center h-64">
-                    <p className="text-muted-foreground animate-pulse">Loading your history...</p>
+                    <div className="flex items-center gap-3">
+                        <div className="h-5 w-5 rounded-full border-2 border-foreground/20 border-t-foreground animate-spin" />
+                        <p className="text-sm text-muted-foreground">Loading your history...</p>
+                    </div>
                 </div>
             </div>
         );
@@ -75,7 +78,7 @@ export default function HistoryPage() {
 
     if (!user) {
         return (
-            <div className="container mx-auto py-10 px-4">
+            <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-10 py-20">
                 <Card className="max-w-md mx-auto text-center">
                     <CardHeader>
                         <CardTitle>Sign in Required</CardTitle>
@@ -92,56 +95,76 @@ export default function HistoryPage() {
     }
 
     return (
-        <div className="container mx-auto py-10 px-4 space-y-8">
-            <div className="flex items-center justify-between">
-                <div className="space-y-1">
-                    <h1 className="text-3xl font-bold tracking-tight">Your Resumes</h1>
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-10 py-16 space-y-12">
+            <motion.div
+                className="flex items-end justify-between"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+            >
+                <div className="space-y-2">
+                    <h1 className="text-3xl md:text-4xl font-bold tracking-tight">Your Resumes</h1>
                     <p className="text-muted-foreground">Manage and edit your previous resumes.</p>
                 </div>
                 <Button onClick={handleCreateNew} className="gap-2">
                     <Plus className="h-4 w-4" /> Create New
                 </Button>
-            </div>
+            </motion.div>
 
             {resumes.length === 0 ? (
-                <Card className="border-dashed py-12">
-                    <CardContent className="flex flex-col items-center justify-center space-y-4">
-                        <div className="p-4 bg-muted rounded-full">
-                            <History className="h-8 w-8 text-muted-foreground" />
-                        </div>
-                        <div className="text-center">
-                            <p className="font-semibold">No resumes found</p>
-                            <p className="text-sm text-muted-foreground">You haven't saved any resumes yet.</p>
-                        </div>
-                        <Button onClick={handleCreateNew} variant="outline">Start Building</Button>
-                    </CardContent>
-                </Card>
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1, duration: 0.5 }}
+                >
+                    <Card className="border-dashed py-16">
+                        <CardContent className="flex flex-col items-center justify-center space-y-6">
+                            <div className="p-5 bg-secondary rounded-2xl">
+                                <History className="h-8 w-8 text-muted-foreground" />
+                            </div>
+                            <div className="text-center space-y-2">
+                                <p className="font-semibold text-lg">No resumes yet</p>
+                                <p className="text-sm text-muted-foreground max-w-sm">
+                                    You haven&apos;t saved any resumes yet. Create your first one to get started.
+                                </p>
+                            </div>
+                            <Button onClick={handleCreateNew} variant="outline">Start Building</Button>
+                        </CardContent>
+                    </Card>
+                </motion.div>
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {resumes.map((resume) => (
-                        <Card key={resume.id} className="group hover:border-primary/50 transition-colors">
-                            <CardHeader>
-                                <CardTitle className="text-lg truncate">{resume.title || resume.data.personalInfo.fullName || "Untitled Resume"}</CardTitle>
-                                <CardDescription>
-                                    Last updated: {new Date(resume.updated_at).toLocaleDateString()}
-                                </CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="flex flex-col gap-2">
-                                    <div className="flex gap-2">
-                                        <Button variant="outline" size="sm" className="flex-1 gap-2 border-primary/20 hover:border-primary/50" onClick={() => handleEdit(resume)}>
-                                            <FileEdit className="h-4 w-4" /> Edit
-                                        </Button>
-                                        <Button variant="ghost" size="icon" className="text-destructive hover:bg-destructive/10" onClick={() => handleDelete(resume.id)}>
-                                            <Trash2 className="h-4 w-4" />
+                    {resumes.map((resume, i) => (
+                        <motion.div
+                            key={resume.id}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: i * 0.05, duration: 0.4 }}
+                        >
+                            <Card className="group hover:border-foreground/15 transition-all duration-300 hover:shadow-md">
+                                <CardHeader>
+                                    <CardTitle className="text-base truncate">{resume.title || resume.data.personalInfo.fullName || "Untitled Resume"}</CardTitle>
+                                    <CardDescription>
+                                        Last updated: {new Date(resume.updated_at).toLocaleDateString()}
+                                    </CardDescription>
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="flex flex-col gap-2">
+                                        <div className="flex gap-2">
+                                            <Button variant="outline" size="sm" className="flex-1 gap-2" onClick={() => handleEdit(resume)}>
+                                                <FileEdit className="h-3.5 w-3.5" /> Edit
+                                            </Button>
+                                            <Button variant="ghost" size="icon-sm" className="text-destructive hover:bg-destructive/10" onClick={() => handleDelete(resume.id)}>
+                                                <Trash2 className="h-3.5 w-3.5" />
+                                            </Button>
+                                        </div>
+                                        <Button variant="ghost" size="sm" className="w-full gap-2 text-muted-foreground hover:text-foreground" onClick={() => handleDuplicate(resume)}>
+                                            <Copy className="h-3.5 w-3.5" /> Duplicate
                                         </Button>
                                     </div>
-                                    <Button variant="ghost" size="sm" className="w-full gap-2 text-muted-foreground hover:text-foreground" onClick={() => handleDuplicate(resume)}>
-                                        <Copy className="h-4 w-4" /> Duplicate
-                                    </Button>
-                                </div>
-                            </CardContent>
-                        </Card>
+                                </CardContent>
+                            </Card>
+                        </motion.div>
                     ))}
                 </div>
             )}

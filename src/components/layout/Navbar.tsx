@@ -8,6 +8,7 @@ import { createClient } from "@/lib/supabase/client";
 
 export function Navbar() {
     const [user, setUser] = useState<any>(null);
+    const [scrolled, setScrolled] = useState(false);
     const supabase = createClient();
 
     useEffect(() => {
@@ -24,25 +25,39 @@ export function Navbar() {
         return () => subscription.unsubscribe();
     }, [supabase.auth]);
 
+    useEffect(() => {
+        const handleScroll = () => setScrolled(window.scrollY > 10);
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
     return (
-        <header className="sticky top-0 z-50 w-full border-b border-border dark:border-[#1F2937] bg-white/95 dark:bg-[#111827]/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-[#111827]/60">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex h-16 items-center justify-between">
-                <Link href="/" className="flex items-center space-x-2">
-                    <span className="font-bold text-xl tracking-tight">AI Resume Builder</span>
+        <header className={`sticky top-0 z-50 w-full transition-all duration-300 ${scrolled ? "bg-background/80 backdrop-blur-xl border-b border-border shadow-sm" : "bg-transparent"}`}>
+            <div className="w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 flex h-16 items-center justify-between">
+                <Link href="/" className="flex items-center space-x-2 group">
+                    <span className="font-semibold text-lg tracking-tight text-foreground">AI Resume Builder</span>
                 </Link>
-                <nav className="flex items-center space-x-6">
+                <nav className="flex items-center gap-1">
                     {user && (
                         <>
-                            <Link href="/builder" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+                            <Link
+                                href="/builder"
+                                className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-200 rounded-full hover:bg-secondary"
+                            >
                                 Create Resume
                             </Link>
-                            <Link href="/history" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+                            <Link
+                                href="/history"
+                                className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-200 rounded-full hover:bg-secondary"
+                            >
                                 History
                             </Link>
                         </>
                     )}
-                    <UserNav />
-                    <ThemeSwitcher />
+                    <div className="flex items-center gap-1 ml-2">
+                        <ThemeSwitcher />
+                        <UserNav />
+                    </div>
                 </nav>
             </div>
         </header>

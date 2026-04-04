@@ -21,14 +21,14 @@ export function FixedSelect({
 }: FixedSelectProps) {
   return (
     <Select {...props}>
-      <SelectTrigger className={cn("w-full bg-transparent dark:bg-[#0F172A]", triggerClassName)}>
+      <SelectTrigger className={cn("w-full bg-transparent", triggerClassName)}>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       
       <SelectContent
         position="popper"
         sideOffset={6}
-        className={cn("z-[9999] rounded-xl shadow-xl border bg-popover", contentClassName)}
+        className={cn("z-[9999] rounded-xl shadow-lg border border-border bg-popover", contentClassName)}
       >
         {children}
       </SelectContent>
