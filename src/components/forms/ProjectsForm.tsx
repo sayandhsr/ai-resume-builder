@@ -24,29 +24,40 @@ export function ProjectsForm() {
 
         setIsOptimizing(id);
         const loadingToast = toast.loading("Optimizing project description...");
+        console.log("Starting AI optimization for projects section...");
         try {
-            const res = await fetch('/api/generate', {
+            const payload = {
+                section: 'projects',
+                rawText: description,
+                role: settings.jobRole,
+                tone: settings.tone,
+                model: settings.aiModel,
+                optimizationType: settings.optimizationType
+            };
+            console.log("Request Payload:", payload);
+
+            const res = await fetch('/api/ai-optimize', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    section: 'projects',
-                    rawText: description,
-                    role: settings.jobRole,
-                    tone: settings.tone,
-                    model: settings.aiModel,
-                    optimizationType: settings.optimizationType
-                }),
+                body: JSON.stringify(payload),
             });
 
-            if (!res.ok) throw new Error('Optimization failed');
+            console.log("API Response Status:", res.status);
+            if (!res.ok) {
+                const errorData = await res.json().catch(() => ({}));
+                console.error("API Error Response:", errorData);
+                throw new Error(errorData.error || 'Optimization failed');
+            }
+            
             const dataResult = await res.json();
+            console.log("Optimization successful, data received.");
 
             if (dataResult.optimizedContent) {
                 updateProject(id, { description: dataResult.optimizedContent });
                 toast.success("Project description optimized!", { id: loadingToast });
             }
         } catch (error) {
-            console.error(error);
+            console.error("Project optimization error:", error);
             toast.error("Could not optimize at this time.", { id: loadingToast });
         } finally {
             setIsOptimizing(null);

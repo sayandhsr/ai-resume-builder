@@ -70,26 +70,33 @@ export function AIOptimizer() {
         const loadingToast = toast.loading("AI is tailoring your resume...");
         setIsOptimizing(true);
         try {
-            const res = await fetch('/api/generate', {
+            console.log("Starting full resume AI optimization...");
+            const payload = {
+                section: 'full_resume',
+                rawText: JSON.stringify(data),
+                role: settings.jobRole,
+                jobDescription: jobDescription,
+                tone: settings.tone,
+                model: settings.aiModel,
+                optimizationType: settings.optimizationType
+            };
+            console.log("Request Payload:", payload);
+
+            const response = await fetch('/api/ai-optimize', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    section: 'full_resume',
-                    rawText: JSON.stringify(data),
-                    role: settings.jobRole,
-                    tone: settings.tone,
-                    jobDescription: jobDescription,
-                    model: settings.aiModel,
-                    optimizationType: settings.optimizationType
-                }),
+                body: JSON.stringify(payload),
             });
 
-            if (!res.ok) {
-                const errData = await res.json();
-                throw new Error(errData.error || 'Tailoring failed');
+            console.log("API Response Status:", response.status);
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({}));
+                console.error("API Error Response:", errorData);
+                throw new Error(errorData.error || 'Optimization failed');
             }
-            
-            const result = await res.json();
+
+            const result = await response.json();
+            console.log("Optimization successful, data received.");
 
             if (result.optimizedContent) {
                 try {

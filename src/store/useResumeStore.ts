@@ -50,7 +50,7 @@ export interface Certification {
     year: string;
 }
 
-export type AIModel = 'google/gemini-flash-1.5:free' | 'meta-llama/llama-3.1-8b-instruct:free' | 'mistralai/mistral-7b-instruct:free';
+export type AIModel = 'meta-llama/llama-3.1-8b-instruct' | 'google/gemini-flash-1.5:free' | 'meta-llama/llama-3.1-8b-instruct:free' | 'mistralai/mistral-7b-instruct:free';
 export type OptimizationType = 'ATS Rewrite' | 'Grammar & spelling' | 'Keyword optimization' | 'ATS Score Booster';
 
 export interface ResumeSettings {
@@ -114,7 +114,7 @@ const initialData: ResumeData = {
         jobType: '', 
         tone: 'ATS-optimized', 
         pageCount: '1',
-        aiModel: 'google/gemini-flash-1.5:free',
+        aiModel: 'meta-llama/llama-3.1-8b-instruct',
         optimizationType: 'ATS Rewrite',
         templateId: 'classic-ats'
     },

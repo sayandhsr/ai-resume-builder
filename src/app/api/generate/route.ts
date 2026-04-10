@@ -1,5 +1,26 @@
 import { NextResponse } from 'next/server';
 
+export async function GET() {
+    const key = process.env.OPENROUTER_API_KEY;
+    if (!key) {
+        return NextResponse.json({ status: "error", message: "API Key missing in environment variables" }, { status: 500 });
+    }
+    
+    try {
+        const res = await fetch("https://openrouter.ai/api/v1/auth/key", {
+            headers: { "Authorization": `Bearer ${key}` }
+        });
+        const data = await res.json();
+        return NextResponse.json({ 
+            status: res.ok ? "ok" : "error", 
+            key_status: data,
+            deployment: process.env.VERCEL ? "vercel" : "local"
+        });
+    } catch (e: any) {
+        return NextResponse.json({ status: "error", message: e.message }, { status: 500 });
+    }
+}
+
 export async function POST(req: Request) {
     try {
         const { 
