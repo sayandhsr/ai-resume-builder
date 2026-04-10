@@ -8,7 +8,7 @@ export async function POST(req: Request) {
             role, 
             tone, 
             jobDescription, 
-            model = "google/gemini-flash-1.5", 
+            model = "google/gemini-flash-1.5:free", 
             optimizationType = "ATS Rewrite" 
         } = await req.json();
 
@@ -72,11 +72,11 @@ export async function POST(req: Request) {
             headers: {
                 "Authorization": `Bearer ${openRouterApiKey}`,
                 "Content-Type": "application/json",
-                "HTTP-Referer": "https://ai-resume-builder.vercel.app", // Adjust if needed
+                "HTTP-Referer": "https://ai-resume-builder.vercel.app",
                 "X-Title": "AI Resume Builder",
             },
             body: JSON.stringify({
-                model: model || "google/gemini-flash-1.5",
+                model: model || "google/gemini-flash-1.5:free",
                 messages: [
                     { role: "system", content: systemPrompt },
                     { role: "user", content: userPrompt }
@@ -89,8 +89,14 @@ export async function POST(req: Request) {
             const errorData = await response.json().catch(() => ({}));
             console.error(`OpenRouter API Error (${response.status}):`, errorData);
             
-            // Handle common OpenRouter errors
-            const errorMessage = errorData.error?.message || `AI API error: ${response.status}`;
+            let errorMessage = errorData.error?.message || `AI API error: ${response.status}`;
+            
+            if (errorMessage.toLowerCase().includes("no endpoints found")) {
+                errorMessage = "No AI endpoints found. Please ensure 'Enable training and logging' is ON in your OpenRouter Privacy Settings to use free models.";
+            } else if (response.status === 402) {
+                errorMessage = "Insufficient OpenRouter credits. Please use a ':free' model or add credits.";
+            }
+
             return NextResponse.json({ error: errorMessage }, { status: response.status });
         }
 
