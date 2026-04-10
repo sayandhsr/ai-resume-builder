@@ -50,7 +50,7 @@ export interface Certification {
     year: string;
 }
 
-export type AIModel = 'google/gemini-pro' | 'x-ai/grok-2-1212' | 'anthropic/claude-3-haiku';
+export type AIModel = 'google/gemini-flash-1.5' | 'x-ai/grok-2' | 'anthropic/claude-3.5-haiku';
 export type OptimizationType = 'ATS Rewrite' | 'Grammar & spelling' | 'Keyword optimization' | 'ATS Score Booster';
 
 export interface ResumeSettings {
@@ -114,7 +114,7 @@ const initialData: ResumeData = {
         jobType: '', 
         tone: 'ATS-optimized', 
         pageCount: '1',
-        aiModel: 'google/gemini-pro',
+        aiModel: 'google/gemini-flash-1.5',
         optimizationType: 'ATS Rewrite',
         templateId: 'classic-ats'
     },

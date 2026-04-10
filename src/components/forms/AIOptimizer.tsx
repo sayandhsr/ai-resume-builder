@@ -170,9 +170,9 @@ export function AIOptimizer() {
                             onValueChange={(val) => updateSettings({ aiModel: val as AIModel })}
                             placeholder="Select AI Model"
                         >
-                            <SelectItem value="google/gemini-pro">Gemini Pro (Google)</SelectItem>
-                            <SelectItem value="x-ai/grok-2-1212">Grok 2 (xAI)</SelectItem>
-                            <SelectItem value="anthropic/claude-3-haiku">Claude 3 Haiku (Anthropic)</SelectItem>
+                            <SelectItem value="google/gemini-flash-1.5">Gemini 1.5 Flash (Google)</SelectItem>
+                            <SelectItem value="x-ai/grok-2">Grok 2 (xAI)</SelectItem>
+                            <SelectItem value="anthropic/claude-3.5-haiku">Claude 3.5 Haiku (Anthropic)</SelectItem>
                         </FixedSelect>
                     </div>
 

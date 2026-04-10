@@ -8,7 +8,7 @@ export async function POST(req: Request) {
             role, 
             tone, 
             jobDescription, 
-            model = "google/gemini-pro", 
+            model = "google/gemini-flash-1.5", 
             optimizationType = "ATS Rewrite" 
         } = await req.json();
 
@@ -20,7 +20,7 @@ export async function POST(req: Request) {
 
         if (!openRouterApiKey) {
             console.error("OpenRouter API Key is missing from Environment Variables");
-            return NextResponse.json({ error: "OpenRouter API Key is missing" }, { status: 500 });
+            return NextResponse.json({ error: "OpenRouter API system configuration error" }, { status: 500 });
         }
 
         const getOptimizationGoal = (type: string) => {
@@ -72,9 +72,11 @@ export async function POST(req: Request) {
             headers: {
                 "Authorization": `Bearer ${openRouterApiKey}`,
                 "Content-Type": "application/json",
+                "HTTP-Referer": "https://ai-resume-builder.vercel.app", // Adjust if needed
+                "X-Title": "AI Resume Builder",
             },
             body: JSON.stringify({
-                model: model,
+                model: model || "google/gemini-flash-1.5",
                 messages: [
                     { role: "system", content: systemPrompt },
                     { role: "user", content: userPrompt }
@@ -84,9 +86,12 @@ export async function POST(req: Request) {
         });
 
         if (!response.ok) {
-            const errorText = await response.text();
-            console.error(`OpenRouter API Error (${response.status}):`, errorText);
-            return NextResponse.json({ error: `AI API error: ${response.status}` }, { status: response.status });
+            const errorData = await response.json().catch(() => ({}));
+            console.error(`OpenRouter API Error (${response.status}):`, errorData);
+            
+            // Handle common OpenRouter errors
+            const errorMessage = errorData.error?.message || `AI API error: ${response.status}`;
+            return NextResponse.json({ error: errorMessage }, { status: response.status });
         }
 
         const data = await response.json();
@@ -94,7 +99,7 @@ export async function POST(req: Request) {
 
         if (!optimizedContent) {
             console.error("OpenRouter returned empty content", data);
-            return NextResponse.json({ error: "AI failed to generate content" }, { status: 500 });
+            return NextResponse.json({ error: "AI failed to generate content. Please try again." }, { status: 500 });
         }
 
         return NextResponse.json({ optimizedContent });
