@@ -1,5 +1,29 @@
 import { NextResponse } from 'next/server';
 
+export async function GET() {
+    const key = process.env.OPENROUTER_API_KEY;
+    console.log("Diagnostic GET received at /api/ai-optimize. Key exists:", !!key);
+    
+    if (!key) {
+        return NextResponse.json({ status: "error", message: "API Key missing in environment variables" }, { status: 500 });
+    }
+    
+    try {
+        const res = await fetch("https://openrouter.ai/api/v1/auth/key", {
+            headers: { "Authorization": `Bearer ${key}` }
+        });
+        const data = await res.json();
+        return NextResponse.json({ 
+            status: res.ok ? "ok" : "error", 
+            key_status: data,
+            deployment: process.env.VERCEL ? "vercel" : "local",
+            message: "If you see 'No endpoints found' for free models, ensure 'Enable training and logging' is ON in your OpenRouter Privacy Settings."
+        });
+    } catch (e: any) {
+        return NextResponse.json({ status: "error", message: e.message }, { status: 500 });
+    }
+}
+
 export async function POST(req: Request) {
     console.log("AI Optimization request received at /api/ai-optimize");
     
@@ -54,8 +78,15 @@ export async function POST(req: Request) {
         if (!response.ok) {
             const errorData = await response.json().catch(() => ({}));
             console.error("OpenRouter API Error:", errorData);
+            
+            let errorMessage = errorData.error?.message || `API error: ${response.status}`;
+            
+            if (errorMessage.toLowerCase().includes("no endpoints found")) {
+                errorMessage = "No AI endpoints found. This often happens because 'Enable training and logging' is OFF in your OpenRouter Privacy Settings, which is required for free models. Please check your settings at openrouter.ai/settings/privacy";
+            }
+
             return NextResponse.json({ 
-                error: errorData.error?.message || `API error: ${response.status}`,
+                error: errorMessage,
                 details: errorData
             }, { status: response.status });
         }
